@@ -27,5 +27,10 @@ namespace Planner.Domain.Accounts
         }
 
         protected FinanceStatement() { }
+
+        public virtual void UpdateInfo(Title title)
+        {
+            Title = title;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Planner.Domain.ValueObjects;
 using System.Threading.Tasks;
 
-namespace Planner.Application.Commands.Expense.Create
+namespace Planner.Application.Commands.Expenses.Create
 {
     public interface ICreateExpenseUseCase
     {

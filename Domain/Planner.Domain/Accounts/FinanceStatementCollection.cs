@@ -1,5 +1,4 @@
 ﻿using Planner.Domain.Exceptions;
-using Planner.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

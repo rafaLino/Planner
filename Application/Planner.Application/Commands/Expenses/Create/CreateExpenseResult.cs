@@ -1,4 +1,4 @@
-﻿namespace Planner.Application.Commands.Expense.Create
+﻿namespace Planner.Application.Commands.Expenses.Create
 {
     public class CreateExpenseResult
     {

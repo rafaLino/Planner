@@ -4,7 +4,7 @@ using Planner.Domain.Accounts;
 using Planner.Domain.ValueObjects;
 using System.Threading.Tasks;
 
-namespace Planner.Application.Commands.Expense.Create
+namespace Planner.Application.Commands.Expenses.Create
 {
     public class CreateExpenseUseCase : ICreateExpenseUseCase
     {
@@ -25,7 +25,7 @@ namespace Planner.Application.Commands.Expense.Create
             if (account == null)
                 throw new AccountNotFoundException($"The account {accountId} does not exists!");
 
-            Domain.Accounts.Expense expense = new Domain.Accounts.Expense(title, amount);
+            Expense expense = new Expense(title, amount);
 
             account
                 .Expenses
