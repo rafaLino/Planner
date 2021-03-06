@@ -7,5 +7,7 @@ namespace Planner.Application.Repositories
     {
         Task<Account> Get(string accountId);
         Task<Account> GetAccountExpenses(string accountId);
+        Task<Account> GetAccountIncomes(string accountId);
+        Task<Account> GetAccountInvestments(string accountId);
     }
 }
