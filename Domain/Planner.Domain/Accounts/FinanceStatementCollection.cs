@@ -34,6 +34,16 @@ namespace Planner.Domain.Accounts
             _financeStatements.Add(item);
         }
 
+        public IFinanceStatement Get(string id)
+        {
+            return _financeStatements.SingleOrDefault(x => x.Id == id);
+        }
+
+        public void Remove(IFinanceStatement item)
+        {
+            _financeStatements.Remove(item);
+        }
+
         public decimal Total()
         {
             return _financeStatements.Sum(x => x.AmountRecords.Total());

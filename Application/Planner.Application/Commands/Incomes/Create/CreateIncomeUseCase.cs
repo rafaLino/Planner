@@ -4,15 +4,15 @@ using Planner.Domain.Accounts;
 using Planner.Domain.ValueObjects;
 using System.Threading.Tasks;
 
-namespace Planner.Application.Commands.Expenses.Create
+namespace Planner.Application.Commands.Incomes.Create
 {
-    public class CreateExpenseUseCase : ICreateExpenseUseCase
+    public class CreateIncomeUseCase : ICreateIncomeUseCase
     {
 
         private readonly IAccountReadOnlyRepository _accountReadOnlyRepository;
         private readonly IAccountWriteOnlyRepository _accountWriteOnlyRepository;
 
-        public CreateExpenseUseCase(IAccountReadOnlyRepository accountReadOnlyRepository, IAccountWriteOnlyRepository accountWriteOnlyRepository)
+        public CreateIncomeUseCase(IAccountReadOnlyRepository accountReadOnlyRepository, IAccountWriteOnlyRepository accountWriteOnlyRepository)
         {
             _accountReadOnlyRepository = accountReadOnlyRepository;
             _accountWriteOnlyRepository = accountWriteOnlyRepository;
@@ -25,19 +25,19 @@ namespace Planner.Application.Commands.Expenses.Create
             if (account == null)
                 throw new AccountNotFoundException($"The account {accountId} does not exists!");
 
-            Expense expense = new Expense(title, amount);
+            Income income = new Income(title, amount);
 
             account
-                .Expenses
-                .Add(expense);
+                .Incomes
+                .Add(income);
 
             await _accountWriteOnlyRepository.Update(account);
 
             CreateFinanceStatementResult result = new CreateFinanceStatementResult
             {
-                Id = expense.Id,
-                Percentage = expense.AmountRecords.Percentage(account.Expenses.Total()),
-                Total = account.Expenses.Total(),
+                Id = income.Id,
+                Percentage = income.AmountRecords.Percentage(account.Incomes.Total()),
+                Total = account.Incomes.Total(),
                 ExpenseTotalPercentage = account.Expenses.Percentage(account.Incomes.Total()),
                 InvestmentTotalPercentage = account.Investments.Percentage(account.Incomes.Total())
             };

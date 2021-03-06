@@ -39,7 +39,7 @@ namespace Planner.Domain.Accounts
 
         public decimal CurrentBalance()
         {
-            return Expenses.Total() + Investments.Total() - Incomes.Total();
+            return Incomes.Total() - (Expenses.Total() + Investments.Total());
         }
     }
 }

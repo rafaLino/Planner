@@ -28,5 +28,7 @@ namespace Planner.Domain.Accounts
             investment.ReferenceDate = referenceDate;
             return investment;
         }
+
+        public void UpdateId(string id) => Id = id;
     }
 }

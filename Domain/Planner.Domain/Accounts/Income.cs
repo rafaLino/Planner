@@ -33,5 +33,6 @@ namespace Planner.Domain.Accounts
             return income;
         }
 
+        public void UpdateId(string id) => Id = id;
     }
 }
