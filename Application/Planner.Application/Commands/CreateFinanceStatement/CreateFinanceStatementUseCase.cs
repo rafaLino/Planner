@@ -2,48 +2,49 @@
 using Planner.Application.Repositories;
 using Planner.Domain.Accounts;
 using Planner.Domain.ValueObjects;
+using System;
 using System.Threading.Tasks;
 
-namespace Planner.Application.Commands.Investments.Create
+namespace Planner.Application.Commands.CreateFinanceStatement
 {
-    public class CreateInvestmentUseCase : ICreateInvestmentUseCase
+    public class CreateFinanceStatementUseCase : ICreateFinanceStatementUseCase
     {
-
         private readonly IAccountReadOnlyRepository _accountReadOnlyRepository;
+
         private readonly IAccountWriteOnlyRepository _accountWriteOnlyRepository;
 
-        public CreateInvestmentUseCase(IAccountReadOnlyRepository accountReadOnlyRepository, IAccountWriteOnlyRepository accountWriteOnlyRepository)
+        public CreateFinanceStatementUseCase(IAccountReadOnlyRepository accountReadOnlyRepository, IAccountWriteOnlyRepository accountWriteOnlyRepository)
         {
             _accountReadOnlyRepository = accountReadOnlyRepository;
             _accountWriteOnlyRepository = accountWriteOnlyRepository;
         }
 
-        public async Task<CreateFinanceStatementResult> Execute(string accountId, Title title, Amount amount = null)
+        public async Task<CreateFinanceStatementResult> Execute<T>(string accountId, Title title, Amount amount = null) where T : class, IFinanceStatement
         {
             Account account = await _accountReadOnlyRepository.Get(accountId);
 
             if (account == null)
                 throw new AccountNotFoundException($"The account {accountId} does not exists!");
 
-            Investment investment = new Investment(title, amount);
+            T financeStatement = (T)Activator.CreateInstance(typeof(T), title, amount);
 
-            account
-                .Investments
-                .Add(investment);
+            FinanceStatementCollection collection = account
+                 .GetCollecion<T>();
+            
+            collection.Add(financeStatement);
 
             await _accountWriteOnlyRepository.Update(account);
 
             CreateFinanceStatementResult result = new CreateFinanceStatementResult
             {
-                Id = investment.Id,
-                Percentage = investment.AmountRecords.Percentage(account.Investments.Total()),
-                Total = account.Investments.Total(),
+                Id = financeStatement.Id,
+                Total = collection.Total(),
+                Percentage = financeStatement.AmountRecords.Percentage(collection.Total()),
                 ExpenseTotalPercentage = account.Expenses.Percentage(account.Incomes.Total()),
                 InvestmentTotalPercentage = account.Investments.Percentage(account.Incomes.Total())
             };
 
             return result;
-
         }
     }
 }

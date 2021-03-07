@@ -28,8 +28,8 @@ namespace Planner.Domain.Accounts
 
         public void Add(IFinanceStatement item)
         {
-            if (_financeStatements.Any(x => x.Title == item.Title))
-                throw new FinanceStatementExistsException($"{item.Title} already exists!");
+            if (Any(x => x.Title == item.Title))
+                throw new FinanceStatementAlreadyExistsException($"{item.Title} already exists!");
 
             _financeStatements.Add(item);
         }
@@ -37,6 +37,16 @@ namespace Planner.Domain.Accounts
         public IFinanceStatement Get(string id)
         {
             return _financeStatements.SingleOrDefault(x => x.Id == id);
+        }
+
+        public IFinanceStatement Get(Func<IFinanceStatement, bool> predicate)
+        {
+            return _financeStatements.SingleOrDefault(predicate);
+        }
+
+        public bool Any(Func<IFinanceStatement, bool> predicate)
+        {
+            return _financeStatements.Any(predicate);
         }
 
         public void Remove(IFinanceStatement item)
@@ -51,6 +61,10 @@ namespace Planner.Domain.Accounts
 
         public double Percentage(decimal total)
         {
+            decimal financeStatementTotal = Total();
+            if (financeStatementTotal == 0 || total == 0)
+                return 0;
+
             return Convert.ToDouble(Total() * 100 / total);
         }
     }

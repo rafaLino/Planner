@@ -45,6 +45,10 @@ namespace Planner.Domain.Accounts
 
         public double Percentage(decimal total)
         {
+            decimal totalRecords = Total();
+            if (totalRecords == 0 || total == 0)
+                return 0;
+
             return Convert.ToDouble(Total() * 100 / total);
         }
     }

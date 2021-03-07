@@ -23,7 +23,8 @@ namespace Planner.Domain.Accounts
             Title = title;
             ReferenceDate = MonthYear.Now;
             AmountRecords = new AmountRecordCollection();
-            AmountRecords.Add(amount);
+            if (amount != null)
+                AmountRecords.Add(amount);
         }
 
         protected FinanceStatement() { }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Planner.Domain.Exceptions;
+using System;
 
 namespace Planner.Domain.Accounts
 {
@@ -13,7 +14,6 @@ namespace Planner.Domain.Accounts
         public FinanceStatementCollection Expenses { get; private set; }
 
         public FinanceStatementCollection Investments { get; private set; }
-
 
 
         private Account() { }
@@ -37,9 +37,53 @@ namespace Planner.Domain.Accounts
             return account;
         }
 
+
+        public IFinanceStatement Get<T>(Func<IFinanceStatement, bool> predicate) where T : class, IFinanceStatement
+        {
+            if (IsExpense(typeof(T)))
+                return Expenses.Get(predicate);
+
+            else if (IsIncome(typeof(T)))
+                return Incomes.Get(predicate);
+
+            else if (IsInvestment(typeof(T)))
+                return Investments.Get(predicate);
+
+            throw new FinanceStatementNotFoundException("not found!");
+        }
+
+        public FinanceStatementCollection GetCollecion<T>() where T : class, IFinanceStatement
+        {
+            if (IsExpense(typeof(T)))
+                return Expenses;
+
+            else if (IsIncome(typeof(T)))
+                return Incomes;
+
+            else if (IsInvestment(typeof(T)))
+                return Investments;
+
+            throw new FinanceStatementCollectionNotFoundException("collection not found!");
+        }
+
         public decimal CurrentBalance()
         {
             return Incomes.Total() - (Expenses.Total() + Investments.Total());
+        }
+
+        private bool IsExpense(Type type)
+        {
+            return type == typeof(Expense);
+        }
+
+        private bool IsIncome(Type type)
+        {
+            return type == typeof(Income);
+        }
+
+        private bool IsInvestment(Type type)
+        {
+            return type == typeof(Investment);
         }
     }
 }

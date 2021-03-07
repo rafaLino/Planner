@@ -14,7 +14,7 @@ namespace Planner.Domain.ValueObjects
 
         public static implicit operator decimal(Amount value)
         {
-            return value._value;
+            return value?._value ?? 0;
         }
 
         public static Amount operator -(Amount value)
@@ -40,32 +40,32 @@ namespace Planner.Domain.ValueObjects
 
         public static bool operator <(Amount value, Amount value2)
         {
-            return value._value < value2._value;
+            return value?._value < value2?._value;
         }
 
         public static bool operator >(Amount value, Amount value2)
         {
-            return value._value > value2._value;
+            return value?._value > value2?._value;
         }
 
         public static bool operator <=(Amount value, Amount value2)
         {
-            return value._value <= value2._value;
+            return value?._value <= value2?._value;
         }
 
         public static bool operator >=(Amount value, Amount value2)
         {
-            return value._value >= value2._value;
+            return value?._value >= value2?._value;
         }
 
         public static bool operator ==(Amount value, Amount value2)
         {
-            return value._value == value2._value;
+            return value?._value == value2?._value;
         }
 
         public static bool operator !=(Amount value, Amount value2)
         {
-            return value._value != value2._value;
+            return value?._value != value2?._value;
         }
 
         public override string ToString()

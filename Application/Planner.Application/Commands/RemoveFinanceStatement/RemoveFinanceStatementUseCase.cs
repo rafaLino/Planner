@@ -3,37 +3,37 @@ using Planner.Application.Repositories;
 using Planner.Domain.Accounts;
 using System.Threading.Tasks;
 
-namespace Planner.Application.Commands.Investments.Remove
+namespace Planner.Application.Commands.RemoveFinanceStatement
 {
-    public class RemoveInvestmentUseCase : IRemoveInvestmentUseCase
+    public class RemoveFinanceStatementUseCase : IRemoveFinanceStatementUseCase
     {
-        private readonly IAccountWriteOnlyRepository _accountWriteOnlyRepository;
         private readonly IAccountReadOnlyRepository _accountReadOnlyRepository;
+        private readonly IAccountWriteOnlyRepository _accountWriteOnlyRepository;
 
-        public RemoveInvestmentUseCase(IAccountReadOnlyRepository accountReadOnlyRepository, IAccountWriteOnlyRepository accountWriteOnlyRepository)
+        public RemoveFinanceStatementUseCase(IAccountReadOnlyRepository accountReadOnlyRepository, IAccountWriteOnlyRepository accountWriteOnlyRepository)
         {
             _accountReadOnlyRepository = accountReadOnlyRepository;
             _accountWriteOnlyRepository = accountWriteOnlyRepository;
         }
 
-        public async Task<RemoveFinanceStatementResult> Execute(string accountId, string investmentId)
+        public async Task<RemoveFinanceStatementResult> Execute<T>(string accountId, string financeStatementId) where T : class, IFinanceStatement
         {
             Account account = await _accountReadOnlyRepository.Get(accountId);
 
             if (account == null)
                 throw new AccountNotFoundException($"The account {accountId} does not exists");
 
-            Investment investment = (Investment)account
-                                         .Investments
-                                         .Get(investmentId);
+            FinanceStatementCollection collection = account.GetCollecion<T>();
 
-            account.Investments.Remove(investment);
+            T financeStatement = (T)collection.Get(financeStatementId);
 
-            await _accountWriteOnlyRepository.Remove(account, investment);
+            collection.Remove(financeStatement);
+
+            await _accountWriteOnlyRepository.Remove(account, financeStatement);
 
             RemoveFinanceStatementResult result = new RemoveFinanceStatementResult
             {
-                Total = account.Investments.Total(),
+                Total = collection.Total(),
                 ExpenseTotalPercentage = account.Expenses.Percentage(account.Incomes.Total()),
                 InvestmentTotalPercentage = account.Investments.Percentage(account.Incomes.Total())
             };

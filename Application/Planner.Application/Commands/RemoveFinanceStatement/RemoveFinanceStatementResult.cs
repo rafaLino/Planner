@@ -1,9 +1,7 @@
-﻿namespace Planner.Application.Commands
+﻿namespace Planner.Application.Commands.RemoveFinanceStatement
 {
-    public class CreateFinanceStatementResult
+    public class RemoveFinanceStatementResult
     {
-        public string Id { get; set; }
-        public double Percentage { get; set; }
         public decimal Total { get; set; }
         public double ExpenseTotalPercentage { get; set; }
         public double InvestmentTotalPercentage { get; set; }
