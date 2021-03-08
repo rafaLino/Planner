@@ -65,7 +65,7 @@ namespace Planner.Domain.Accounts
             if (financeStatementTotal == 0 || total == 0)
                 return 0;
 
-            return Convert.ToDouble(Total() * 100 / total);
+            return Convert.ToDouble(financeStatementTotal / total);
         }
     }
 }

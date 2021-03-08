@@ -31,11 +31,26 @@ namespace Planner.Application.Commands.RemoveFinanceStatement
 
             await _accountWriteOnlyRepository.Remove(account, financeStatement);
 
+            decimal totalIncomes = account.Incomes.Total();
+            decimal totalExpenses = account.Expenses.Total();
+            decimal totalInvestments = account.Investments.Total();
+
             RemoveFinanceStatementResult result = new RemoveFinanceStatementResult
             {
-                Total = collection.Total(),
-                ExpenseTotalPercentage = account.Expenses.Percentage(account.Incomes.Total()),
-                InvestmentTotalPercentage = account.Investments.Percentage(account.Incomes.Total())
+                Income = new Results.FinanceStatementResult
+                {
+                    Total = totalIncomes
+                },
+                Expense = new Results.FinanceStatementResult
+                {
+                    Total = totalExpenses,
+                    Percentage = account.Expenses.Percentage(totalIncomes)
+                },
+                Investment = new Results.FinanceStatementResult
+                {
+                    Total = totalInvestments,
+                    Percentage = account.Investments.Percentage(totalIncomes)
+                },
             };
 
             return result;

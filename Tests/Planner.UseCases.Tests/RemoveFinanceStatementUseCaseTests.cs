@@ -54,7 +54,7 @@ namespace Planner.UseCases.Tests
                                     .WithInvestments(7015m)
                                     .Build();
 
-            decimal expectedTotal = 1284.98m;
+            decimal expectedExpenseTotal = 1284.98m;
             double expectedTotalExpensesPercentage = 12.70;
             double expectedTotalInvestmentsPercentage = 69.32;
 
@@ -69,10 +69,9 @@ namespace Planner.UseCases.Tests
 
             var result = await _removeUseCase.Execute<Expense>(accountId, expenseId);
 
-            Assert.Single(account.Expenses.GetFinanceStatements());
-            Assert.Equal(expectedTotal, result.Total);
-            Assert.Equal(expectedTotalExpensesPercentage, Math.Round(result.ExpenseTotalPercentage, 2));
-            Assert.Equal(expectedTotalInvestmentsPercentage, Math.Round(result.InvestmentTotalPercentage, 2));
+            Assert.Equal(expectedExpenseTotal, result.Expense.Total);
+            Assert.Equal(expectedTotalExpensesPercentage, Math.Round(result.Expense.Percentage * 100, 2));
+            Assert.Equal(expectedTotalInvestmentsPercentage, Math.Round(result.Investment.Percentage * 100, 2));
 
             _accountReadOnlyRepository.VerifyAll();
             _accountWriteOnlyRepository.VerifyAll();
@@ -87,7 +86,7 @@ namespace Planner.UseCases.Tests
                                     .New
                                     .WithId(accountId)
                                     .WithIncomes()
-                                    .WithIncomes(IncomeId, 5)
+                                    .WithIncomes(IncomeId, 300, 600, 800)
                                     .WithInvestments()
                                     .Build();
 
@@ -100,9 +99,12 @@ namespace Planner.UseCases.Tests
                 .Setup(x => x.Remove(account, It.IsAny<IFinanceStatement>()))
                 .Verifiable();
 
-            await _removeUseCase.Execute<Income>(accountId, IncomeId);
+            decimal expectedTotal = 1_400m;
 
-            Assert.Equal(4, account.Incomes.GetFinanceStatements().Count());
+            var result = await _removeUseCase.Execute<Income>(accountId, IncomeId);
+
+            Assert.Equal(2, account.Incomes.GetFinanceStatements().Count());
+            Assert.Equal(expectedTotal, result.Income.Total);
 
             _accountReadOnlyRepository.VerifyAll();
             _accountWriteOnlyRepository.VerifyAll();

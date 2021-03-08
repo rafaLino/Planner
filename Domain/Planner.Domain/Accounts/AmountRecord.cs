@@ -23,6 +23,13 @@ namespace Planner.Domain.Accounts
 
         private AmountRecord() { }
 
+
+        public void Update(Amount amount, string description)
+        {
+            Amount = amount ?? Amount;
+            Description = description ?? Description;
+        }
+
         public static AmountRecord Load(string id, string description, Amount amount)
         {
             AmountRecord amountRecord = new AmountRecord();
@@ -31,5 +38,6 @@ namespace Planner.Domain.Accounts
             amountRecord.Amount = amount;
             return amountRecord;
         }
+
     }
 }

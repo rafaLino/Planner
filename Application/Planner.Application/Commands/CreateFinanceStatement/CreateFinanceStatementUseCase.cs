@@ -30,18 +30,34 @@ namespace Planner.Application.Commands.CreateFinanceStatement
 
             FinanceStatementCollection collection = account
                  .GetCollecion<T>();
-            
+
             collection.Add(financeStatement);
 
             await _accountWriteOnlyRepository.Update(account);
 
+            decimal totalIncomes = account.Incomes.Total();
+            decimal totalExpenses = account.Expenses.Total();
+            decimal totalInvestments = account.Investments.Total();
+
             CreateFinanceStatementResult result = new CreateFinanceStatementResult
             {
                 Id = financeStatement.Id,
-                Total = collection.Total(),
+                Total = financeStatement.AmountRecords.Total(),
                 Percentage = financeStatement.AmountRecords.Percentage(collection.Total()),
-                ExpenseTotalPercentage = account.Expenses.Percentage(account.Incomes.Total()),
-                InvestmentTotalPercentage = account.Investments.Percentage(account.Incomes.Total())
+                Income = new Results.FinanceStatementResult
+                {
+                    Total = totalIncomes
+                },
+                Expense = new Results.FinanceStatementResult
+                {
+                    Total = totalExpenses,
+                    Percentage = account.Expenses.Percentage(totalIncomes)
+                },
+                Investment = new Results.FinanceStatementResult
+                {
+                    Total = totalInvestments,
+                    Percentage = account.Investments.Percentage(totalIncomes)
+                },
             };
 
             return result;

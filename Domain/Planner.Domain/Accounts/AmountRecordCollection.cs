@@ -38,6 +38,21 @@ namespace Planner.Domain.Accounts
             _amountRecords.Add(amount);
         }
 
+        public AmountRecord Get(string id)
+        {
+            return _amountRecords.FirstOrDefault(x => x.Id == id);
+        }
+
+        public AmountRecord Remove(string id)
+        {
+            AmountRecord amountRecord = Get(id);
+            bool removed = _amountRecords.Remove(amountRecord);
+            if (removed)
+                return amountRecord;
+
+            return default;
+        }
+
         public Amount Total()
         {
             return _amountRecords.Sum(x => x.Amount);
@@ -49,7 +64,7 @@ namespace Planner.Domain.Accounts
             if (totalRecords == 0 || total == 0)
                 return 0;
 
-            return Convert.ToDouble(Total() * 100 / total);
+            return Convert.ToDouble(totalRecords / total);
         }
     }
 }

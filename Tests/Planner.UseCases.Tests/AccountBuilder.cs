@@ -82,6 +82,20 @@ namespace Planner.UseCases.Tests
             return this;
         }
 
+        public AccountBuilder WithIncomes(string firstItemId, params decimal[] values)
+        {
+            var list = new List<Income>();
+            list.Add(Income.Load(firstItemId, GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, values[0]) }), MonthYear.Now));
+
+            for (int i = 1; i < values.Length; i++)
+            {
+                list.Add(Income.Load(Guid.NewGuid().ToString(), GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, values[i]) }), MonthYear.Now));
+            }
+
+            Incomes = new FinanceStatementCollection(list);
+            return this;
+        }
+
         public AccountBuilder WithExpenses(int length = 2)
         {
             var list = new List<Expense>();
@@ -120,7 +134,7 @@ namespace Planner.UseCases.Tests
         {
             var list = new List<Expense>();
             list.Add(Expense.Load(firstItemId, GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, values[0]) }), MonthYear.Now));
-            
+
             for (int i = 1; i < values.Length; i++)
             {
                 list.Add(Expense.Load(Guid.NewGuid().ToString(), GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, values[i]) }), MonthYear.Now));
@@ -143,7 +157,47 @@ namespace Planner.UseCases.Tests
             return this;
         }
 
-       
+        public AccountBuilder WithExpense(string expenseId, string firstAmountRecordId, params decimal[] amountRecordValues)
+        {
+            Expense expense = new Expense(GenerateName(5));
+            expense.UpdateId(expenseId);
+            expense.AmountRecords.Add(AmountRecord.Load(firstAmountRecordId, GenerateName(5), amountRecordValues[0]));
+            for (int i = 1; i < amountRecordValues.Length; i++)
+            {
+                expense.AmountRecords.Add(AmountRecord.Load(Guid.NewGuid().ToString(), GenerateName(5), amountRecordValues[i]));
+            }
+            Expenses.Add(expense);
+            return this;
+
+        }
+
+        public AccountBuilder WithIncome(string incomeId, string firstAmountRecordId, params decimal[] amountRecordValues)
+        {
+            Income income = new Income(GenerateName(5));
+            income.UpdateId(incomeId);
+            income.AmountRecords.Add(AmountRecord.Load(firstAmountRecordId, GenerateName(5), amountRecordValues[0]));
+            for (int i = 1; i < amountRecordValues.Length; i++)
+            {
+                income.AmountRecords.Add(AmountRecord.Load(Guid.NewGuid().ToString(), GenerateName(5), amountRecordValues[i]));
+            }
+            Incomes.Add(income);
+            return this;
+
+        }
+
+        public AccountBuilder WithInvestment(string investmentId, string firstAmountRecordId, params decimal[] amountRecordValues)
+        {
+            Investment investment = new Investment(GenerateName(5));
+            investment.UpdateId(investmentId);
+            investment.AmountRecords.Add(AmountRecord.Load(firstAmountRecordId, GenerateName(5), amountRecordValues[0]));
+            for (int i = 1; i < amountRecordValues.Length; i++)
+            {
+                investment.AmountRecords.Add(AmountRecord.Load(Guid.NewGuid().ToString(), GenerateName(5), amountRecordValues[i]));
+            }
+            Investments.Add(investment);
+            return this;
+
+        }
 
         public AccountBuilder WithInvestments(int length = 2)
         {
@@ -186,6 +240,20 @@ namespace Planner.UseCases.Tests
             for (int i = 0; i < length - 1; i++)
             {
                 list.Add(Investment.Load(Guid.NewGuid().ToString(), GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, GenerateDecimal()) }), MonthYear.Now));
+            }
+
+            Investments = new FinanceStatementCollection(list);
+            return this;
+        }
+
+        public AccountBuilder WithInvestments(string firstItemId, params decimal[] values)
+        {
+            var list = new List<Investment>();
+            list.Add(Investment.Load(firstItemId, GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, values[0]) }), MonthYear.Now));
+
+            for (int i = 1; i < values.Length; i++)
+            {
+                list.Add(Investment.Load(Guid.NewGuid().ToString(), GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, values[i]) }), MonthYear.Now));
             }
 
             Investments = new FinanceStatementCollection(list);

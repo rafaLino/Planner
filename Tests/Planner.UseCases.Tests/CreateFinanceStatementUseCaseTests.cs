@@ -83,7 +83,8 @@ namespace Planner.UseCases.Tests
                                     .WithInvestments(7015)
                                     .Build();
 
-            decimal expectedTotal = 2144.11m;
+            decimal expectedTotal = 124.99m;
+            decimal expectedExpenseTotal = 2144.11m;
             double expectedPercentage = 5.83;
             double expectedTotalPercentage = 21.19;
 
@@ -103,8 +104,9 @@ namespace Planner.UseCases.Tests
 
             Assert.NotNull(result.Id);
             Assert.Equal(expectedTotal, result.Total);
-            Assert.Equal(expectedPercentage, Math.Round(result.Percentage, 2));
-            Assert.Equal(expectedTotalPercentage, Math.Round(result.ExpenseTotalPercentage, 2));
+            Assert.Equal(expectedExpenseTotal, result.Expense.Total);
+            Assert.Equal(expectedPercentage, Math.Round(result.Percentage * 100, 2));
+            Assert.Equal(expectedTotalPercentage, Math.Round(result.Expense.Percentage * 100, 2));
 
             _accountReadOnlyRepository.VerifyAll();
             _accountWriteOnlyRepository.VerifyAll();
@@ -123,9 +125,9 @@ namespace Planner.UseCases.Tests
                                     .WithInvestments(7015m)
                                     .Build();
 
-            decimal expectedTotal = 10244.62m;
+            decimal expectedTotal = 124.99m;
+            decimal expectedIncomeTotal = 10244.62m;
             double expectedPercentage = 1.22;
-            double expectedTotalPercentage = 19.71;
 
             _accountReadOnlyRepository
                 .Setup(x => x.Get(accountId))
@@ -143,8 +145,8 @@ namespace Planner.UseCases.Tests
 
             Assert.NotNull(result.Id);
             Assert.Equal(expectedTotal, result.Total);
-            Assert.Equal(expectedPercentage, Math.Round(result.Percentage, 2));
-            Assert.Equal(expectedTotalPercentage, Math.Round(result.ExpenseTotalPercentage, 2));
+            Assert.Equal(expectedIncomeTotal, result.Income.Total);
+            Assert.Equal(expectedPercentage, Math.Round(result.Percentage * 100, 2));
 
             _accountReadOnlyRepository.VerifyAll();
             _accountWriteOnlyRepository.VerifyAll();
@@ -163,7 +165,8 @@ namespace Planner.UseCases.Tests
                                     .WithInvestments(7015m)
                                     .Build();
 
-            decimal expectedTotal = 7139.99m;
+            decimal expectedTotal = 124.99m;
+            decimal expectedInvestmentTotal = 7139.99m;
             double expectedPercentage = 1.75;
             double expectedTotalPercentage = 70.56;
 
@@ -183,8 +186,9 @@ namespace Planner.UseCases.Tests
 
             Assert.NotNull(result.Id);
             Assert.Equal(expectedTotal, result.Total);
-            Assert.Equal(expectedPercentage, Math.Round(result.Percentage, 2));
-            Assert.Equal(expectedTotalPercentage, Math.Round(result.InvestmentTotalPercentage, 2));
+            Assert.Equal(expectedInvestmentTotal, result.Investment.Total);
+            Assert.Equal(expectedPercentage, Math.Round(result.Percentage * 100, 2));
+            Assert.Equal(expectedTotalPercentage, Math.Round(result.Investment.Percentage * 100, 2));
 
             _accountReadOnlyRepository.VerifyAll();
             _accountWriteOnlyRepository.VerifyAll();
