@@ -30,7 +30,7 @@ namespace Planner.Domain.Accounts
             return expense;
         }
 
-        public void UpdateId(string id)
+        public override void UpdateId(string id)
         {
             Id = id;
         }

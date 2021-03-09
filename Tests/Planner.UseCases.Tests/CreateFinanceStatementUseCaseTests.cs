@@ -54,10 +54,10 @@ namespace Planner.UseCases.Tests
                 .ReturnsAsync(account);
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account))
-                .Callback<Account>(account =>
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()))
+                .Callback<Account, IFinanceStatement>((account, FinanceStatement) =>
                 {
-                    Expense expense = (Expense)account.Expenses.GetFinanceStatements().Single(x => x.Id == null);
+                    Expense expense = (Expense)FinanceStatement;
                     expense.UpdateId(Guid.NewGuid().ToString());
                 });
 
@@ -93,11 +93,11 @@ namespace Planner.UseCases.Tests
                 .ReturnsAsync(account);
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account))
-                .Callback<Account>(account =>
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()))
+                .Callback<Account, IFinanceStatement>((account, expense) =>
                 {
-                    Expense expense = (Expense)account.Expenses.GetFinanceStatements().Single(x => x.Id == null);
-                    expense.UpdateId(Guid.NewGuid().ToString());
+                    Expense Expense = (Expense)expense;
+                    Expense.UpdateId(Guid.NewGuid().ToString());
                 });
 
             var result = await _createUseCase.Execute<Expense>(accountId, "internet", 124.99m);
@@ -134,10 +134,10 @@ namespace Planner.UseCases.Tests
                 .ReturnsAsync(account);
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account))
-                .Callback<Account>(account =>
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()))
+                .Callback<Account, IFinanceStatement>((account, income) =>
                 {
-                    Income Income = (Income)account.Incomes.GetFinanceStatements().Single(x => x.Id == null);
+                    Income Income = (Income)income;
                     Income.UpdateId(Guid.NewGuid().ToString());
                 });
 
@@ -175,12 +175,12 @@ namespace Planner.UseCases.Tests
                 .ReturnsAsync(account);
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account))
-                .Callback<Account>(account =>
-                {
-                    Investment Investment = (Investment)account.Investments.GetFinanceStatements().Single(x => x.Id == null);
-                    Investment.UpdateId(Guid.NewGuid().ToString());
-                });
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()))
+                .Callback<Account, IFinanceStatement>((account, investment) =>
+                 {
+                     Investment Investment = (Investment)investment;
+                     Investment.UpdateId(Guid.NewGuid().ToString());
+                 });
 
             var result = await _createUseCase.Execute<Investment>(accountId, "TSLA34", 124.99m);
 

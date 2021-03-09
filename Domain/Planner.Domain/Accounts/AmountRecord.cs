@@ -39,5 +39,10 @@ namespace Planner.Domain.Accounts
             return amountRecord;
         }
 
+        public void UpdateId(string id)
+        {
+            Id = id;
+        }
+
     }
 }

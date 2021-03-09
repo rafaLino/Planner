@@ -23,15 +23,13 @@ namespace Planner.Application.Commands.UpdateAmountRecord
             if (account == null)
                 throw new AccountNotFoundException($"The account {command.AccountId} does not exists");
 
-            AmountRecordCollection collection = account
-                                                    .Get<T>(x => x.Id == command.FinanceStatementId)
-                                                    .AmountRecords;
+            T financeStatement = (T)account.Get<T>(x => x.Id == command.FinanceStatementId);
 
-            AmountRecord amountRecord = collection.Get(command.AmountRecordId);
+            AmountRecord amountRecord = financeStatement.AmountRecords.Get(command.AmountRecordId);
 
             amountRecord.Update(command.Amount, command.Description);
 
-            await _accountWriteOnlyRepository.Update(account, amountRecord);
+            await _accountWriteOnlyRepository.Update(account, financeStatement, amountRecord);
 
             decimal incomeTotal = account.Incomes.Total();
             decimal expenseTotal = account.Expenses.Total();
@@ -39,8 +37,8 @@ namespace Planner.Application.Commands.UpdateAmountRecord
 
             UpdateAmountRecordResult result = new UpdateAmountRecordResult
             {
-                Total = collection.Total(),
-                Percentage = collection.Percentage(account.GetCollecion<T>().Total()),
+                Total = financeStatement.AmountRecords.Total(),
+                Percentage = financeStatement.AmountRecords.Percentage(account.GetCollecion<T>().Total()),
                 Income = new Results.FinanceStatementResult
                 {
                     Total = incomeTotal

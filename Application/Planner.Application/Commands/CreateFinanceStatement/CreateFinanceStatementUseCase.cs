@@ -33,7 +33,7 @@ namespace Planner.Application.Commands.CreateFinanceStatement
 
             collection.Add(financeStatement);
 
-            await _accountWriteOnlyRepository.Update(account);
+            await _accountWriteOnlyRepository.Update(account, financeStatement);
 
             decimal totalIncomes = account.Incomes.Total();
             decimal totalExpenses = account.Expenses.Total();

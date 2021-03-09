@@ -45,27 +45,27 @@ namespace Planner.Infrastructure
         }
 
 
-        public IMongoCollection<Income> Incomes
+        public IMongoCollection<FinanceStatement> Incomes
         {
             get
             {
-                return _dataBase.GetCollection<Income>(nameof(Incomes));
+                return _dataBase.GetCollection<FinanceStatement>(nameof(Incomes));
             }
         }
 
-        public IMongoCollection<Income> Expenses
+        public IMongoCollection<FinanceStatement> Expenses
         {
             get
             {
-                return _dataBase.GetCollection<Income>(nameof(Expenses));
+                return _dataBase.GetCollection<FinanceStatement>(nameof(Expenses));
             }
         }
 
-        public IMongoCollection<Income> Investments
+        public IMongoCollection<FinanceStatement> Investments
         {
             get
             {
-                return _dataBase.GetCollection<Income>(nameof(Investments));
+                return _dataBase.GetCollection<FinanceStatement>(nameof(Investments));
             }
         }
 
@@ -81,21 +81,10 @@ namespace Planner.Infrastructure
                 cm.AutoMap();
             });
 
-            BsonClassMap.RegisterClassMap<Expense>(cm =>
+            BsonClassMap.RegisterClassMap<FinanceStatement>(cm =>
             {
                 cm.AutoMap();
             });
-
-            BsonClassMap.RegisterClassMap<Income>(cm =>
-            {
-                cm.AutoMap();
-            });
-
-            BsonClassMap.RegisterClassMap<Investment>(cm =>
-            {
-                cm.AutoMap();
-            });
-
 
             BsonClassMap.RegisterClassMap<AmountRecord>(cm =>
             {

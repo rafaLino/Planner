@@ -23,13 +23,13 @@ namespace Planner.Application.Commands.RemoveAmountRecord
             if (account == null)
                 throw new AccountNotFoundException($"The account {accountId} does exists");
 
-            AmountRecord removed = account
-                                  .Get<T>(x => x.Id == financeStatementId)
+            T financeStatement = (T)account.Get<T>(x => x.Id == financeStatementId);
+            AmountRecord removed = financeStatement
                                   .AmountRecords
                                   .Remove(amountRecordId);
 
             if (removed != null)
-                await _accountWriteOnlyRepository.Remove(account, removed);
+                await _accountWriteOnlyRepository.Remove(financeStatement, removed);
 
             decimal incomeTotal = account.Incomes.Total();
             decimal expenseTotal = account.Expenses.Total();

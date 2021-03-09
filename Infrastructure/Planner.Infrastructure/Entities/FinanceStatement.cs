@@ -2,7 +2,7 @@
 
 namespace Planner.Infrastructure.Entities
 {
-    public class Expense : Entity
+    public class FinanceStatement : Entity
     {
         public string Title { get; set; }
 

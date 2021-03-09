@@ -1,5 +1,7 @@
 ﻿using Planner.Domain.Exceptions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Planner.Domain.Accounts
 {
@@ -69,6 +71,18 @@ namespace Planner.Domain.Accounts
         public decimal CurrentBalance()
         {
             return Incomes.Total() - (Expenses.Total() + Investments.Total());
+        }
+
+        public IEnumerable<IFinanceStatement> GetAll()
+        {
+           return Incomes.GetFinanceStatements()
+                   .Concat(Expenses.GetFinanceStatements())
+                   .Concat(Investments.GetFinanceStatements());
+        }
+
+        public void UpdateId(string id)
+        {
+            Id = id;
         }
 
         private bool IsExpense(Type type)

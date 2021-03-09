@@ -45,7 +45,7 @@ namespace Planner.UseCases.Tests
                 .Verifiable();
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account, It.IsAny<AmountRecord>()))
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>(), It.IsAny<AmountRecord>()))
                 .Verifiable();
 
             decimal expectedTotal = 400m;
@@ -93,7 +93,7 @@ namespace Planner.UseCases.Tests
                 .Verifiable();
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account, It.IsAny<AmountRecord>()))
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>(), It.IsAny<AmountRecord>()))
                 .Verifiable();
 
             decimal expectedTotal = 400m;
@@ -140,7 +140,7 @@ namespace Planner.UseCases.Tests
                 .Verifiable();
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account, It.IsAny<AmountRecord>()))
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>(), It.IsAny<AmountRecord>()))
                 .Verifiable();
 
             decimal expectedTotal = 400m;

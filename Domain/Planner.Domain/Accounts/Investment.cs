@@ -29,6 +29,6 @@ namespace Planner.Domain.Accounts
             return investment;
         }
 
-        public void UpdateId(string id) => Id = id;
+        public override void UpdateId(string id) => Id = id;
     }
 }

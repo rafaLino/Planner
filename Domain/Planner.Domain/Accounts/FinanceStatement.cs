@@ -33,5 +33,10 @@ namespace Planner.Domain.Accounts
         {
             Title = title;
         }
+
+        public virtual void UpdateId(string id)
+        {
+            Id = id;
+        }
     }
 }
