@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Planner.Api.Filters;
+using Planner.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +44,16 @@ namespace Planner.Api
                     .AllowAnyHeader()
                     );
             });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(DomainExceptionFilter));
+                options.Filters.Add(typeof(ValidateModelAttribute));
+            });
+
+            services.AddConfig(Configuration);
+            services.Register();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

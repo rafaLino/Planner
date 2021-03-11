@@ -8,8 +8,4 @@
     <ProjectReference Include="..\..\Domain\Planner.Domain\Planner.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
 </Project>

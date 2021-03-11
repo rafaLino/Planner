@@ -38,6 +38,13 @@ namespace Planner.Domain.Accounts
             _amountRecords.Add(amount);
         }
 
+        public void Replace(IEnumerable<AmountRecord> amountRecords)
+        {
+            _amountRecords.Clear();
+            foreach (var item in amountRecords)
+                _amountRecords.Add(item);
+        }
+
         public AmountRecord Get(string id)
         {
             return _amountRecords.FirstOrDefault(x => x.Id == id);

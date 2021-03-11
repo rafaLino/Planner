@@ -56,31 +56,7 @@ namespace Planner.UseCases.Tests
             return this;
         }
 
-        public AccountBuilder WithIncomes(Title title, int length = 3)
-        {
-            var list = new List<Income>();
-            list.Add(Income.Load(Guid.NewGuid().ToString(), title, new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, GenerateDecimal()) }), MonthYear.Now));
-            for (int i = 0; i < length - 1; i++)
-            {
-                list.Add(Income.Load(Guid.NewGuid().ToString(), GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, GenerateDecimal()) }), MonthYear.Now));
-            }
 
-            Incomes = new FinanceStatementCollection(list);
-            return this;
-        }
-
-        public AccountBuilder WithIncomes(string firstItemId, int length = 3)
-        {
-            var list = new List<Income>();
-            list.Add(Income.Load(firstItemId, GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, GenerateDecimal()) }), MonthYear.Now));
-            for (int i = 0; i < length - 1; i++)
-            {
-                list.Add(Income.Load(Guid.NewGuid().ToString(), GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, GenerateDecimal()) }), MonthYear.Now));
-            }
-
-            Incomes = new FinanceStatementCollection(list);
-            return this;
-        }
 
         public AccountBuilder WithIncomes(string firstItemId, params decimal[] values)
         {
@@ -216,19 +192,6 @@ namespace Planner.UseCases.Tests
             {
                 list.Add(Investment.Load(Guid.NewGuid().ToString(), GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, value) }), MonthYear.Now));
             }
-            Investments = new FinanceStatementCollection(list);
-            return this;
-        }
-
-        public AccountBuilder WithInvestments(Title title, int length = 3)
-        {
-            var list = new List<Investment>();
-            list.Add(Investment.Load(Guid.NewGuid().ToString(), title, new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, GenerateDecimal()) }), MonthYear.Now));
-            for (int i = 0; i < length - 1; i++)
-            {
-                list.Add(Investment.Load(Guid.NewGuid().ToString(), GenerateName(9), new AmountRecordCollection(new[] { AmountRecord.Load(Guid.NewGuid().ToString(), null, GenerateDecimal()) }), MonthYear.Now));
-            }
-
             Investments = new FinanceStatementCollection(list);
             return this;
         }
