@@ -3,6 +3,7 @@ using Planner.Application.Repositories;
 using Planner.Domain.Accounts;
 using Planner.Domain.Exceptions;
 using Planner.Domain.ValueObjects;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace Planner.Application.Commands.UpdateFinanceStatement
             _accountReadOnlyRepository = accountReadOnlyRepository;
             _accountWriteOnlyRepository = accountWriteOnlyRepository;
         }
-        public async Task Execute<T>(string accountId, string financeStatementId, Title title) where T :  class, IFinanceStatement
+        public async Task Execute<T>(Guid accountId, Guid financeStatementId, Title title) where T :  class, IFinanceStatement
         {
             Account account = await _accountReadOnlyRepository.Get(accountId);
 
@@ -33,7 +34,7 @@ namespace Planner.Application.Commands.UpdateFinanceStatement
 
             FinanceStatement financeStatement = (FinanceStatement)collection.Get(financeStatementId);
 
-            financeStatement.UpdateInfo(title);
+            financeStatement.Update(title);
 
             await _accountWriteOnlyRepository.Update(account, financeStatement);
         }

@@ -10,9 +10,9 @@ namespace Planner.Application.Results
 
         public IncomeCardResult(FinanceStatementCollection incomes)
         {
-            Content = incomes.GetFinanceStatements().Select(expense =>
+            Content = incomes.GetFinanceStatements().Select(income =>
                         {
-                            return new FinanceStatementQueryResult(expense.Id, expense.Title, 0, expense.AmountRecords);
+                            return new FinanceStatementQueryResult(income.Id, income.Title, 0, income.AmountRecords);
                         });
 
         }

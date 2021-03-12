@@ -27,7 +27,7 @@ namespace Planner.UseCases.Tests
         [Fact]
         public void Should_Throw_Exception_Given_Nonexistent_Account()
         {
-            string accountId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
 
             _accountReadOnlyRepository
                 .Setup(x => x.Get(accountId))
@@ -42,7 +42,7 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Create_Finance_Statement_Without_Amount()
         {
-            string accountId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
 
             Account account = AccountBuilder
                                     .New
@@ -54,18 +54,14 @@ namespace Planner.UseCases.Tests
                 .ReturnsAsync(account);
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()))
-                .Callback<Account, IFinanceStatement>((account, FinanceStatement) =>
-                {
-                    Expense expense = (Expense)FinanceStatement;
-                    expense.UpdateId(Guid.NewGuid().ToString());
-                });
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()));
+
 
             var result = await _createUseCase.Execute<Expense>(accountId, "internet", null);
 
-            Assert.NotNull(result.Id);
+            Assert.NotNull(result.Id.ToString());
             Assert.Equal(0, result.Total);
-
+            
             _accountReadOnlyRepository.VerifyAll();
             _accountWriteOnlyRepository.VerifyAll();
         }
@@ -73,7 +69,7 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Create_Expense()
         {
-            string accountId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
 
             Account account = AccountBuilder
                                     .New
@@ -93,20 +89,17 @@ namespace Planner.UseCases.Tests
                 .ReturnsAsync(account);
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()))
-                .Callback<Account, IFinanceStatement>((account, expense) =>
-                {
-                    Expense Expense = (Expense)expense;
-                    Expense.UpdateId(Guid.NewGuid().ToString());
-                });
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()));
+                
 
             var result = await _createUseCase.Execute<Expense>(accountId, "internet", 124.99m);
 
-            Assert.NotNull(result.Id);
+            Assert.NotNull(result.Id.ToString());
             Assert.Equal(expectedTotal, result.Total);
             Assert.Equal(expectedExpenseTotal, result.Expense.Total);
             Assert.Equal(expectedPercentage, Math.Round(result.Percentage * 100, 2));
             Assert.Equal(expectedTotalPercentage, Math.Round(result.Expense.Percentage * 100, 2));
+            Assert.NotEmpty(result.AmountRecords);
 
             _accountReadOnlyRepository.VerifyAll();
             _accountWriteOnlyRepository.VerifyAll();
@@ -115,7 +108,7 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Create_Income()
         {
-            string accountId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
 
             Account account = AccountBuilder
                                     .New
@@ -134,16 +127,12 @@ namespace Planner.UseCases.Tests
                 .ReturnsAsync(account);
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()))
-                .Callback<Account, IFinanceStatement>((account, income) =>
-                {
-                    Income Income = (Income)income;
-                    Income.UpdateId(Guid.NewGuid().ToString());
-                });
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()));
+                
 
             var result = await _createUseCase.Execute<Income>(accountId, "bonus", 124.99m);
 
-            Assert.NotNull(result.Id);
+            Assert.NotNull(result.Id.ToString());
             Assert.Equal(expectedTotal, result.Total);
             Assert.Equal(expectedIncomeTotal, result.Income.Total);
             Assert.Equal(expectedPercentage, Math.Round(result.Percentage * 100, 2));
@@ -155,7 +144,7 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Create_Investment()
         {
-            string accountId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
 
             Account account = AccountBuilder
                                     .New
@@ -175,16 +164,12 @@ namespace Planner.UseCases.Tests
                 .ReturnsAsync(account);
 
             _accountWriteOnlyRepository
-                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()))
-                .Callback<Account, IFinanceStatement>((account, investment) =>
-                 {
-                     Investment Investment = (Investment)investment;
-                     Investment.UpdateId(Guid.NewGuid().ToString());
-                 });
+                .Setup(x => x.Update(account, It.IsAny<IFinanceStatement>()));
+                
 
             var result = await _createUseCase.Execute<Investment>(accountId, "TSLA34", 124.99m);
 
-            Assert.NotNull(result.Id);
+            Assert.NotNull(result.Id.ToString());
             Assert.Equal(expectedTotal, result.Total);
             Assert.Equal(expectedInvestmentTotal, result.Investment.Total);
             Assert.Equal(expectedPercentage, Math.Round(result.Percentage * 100, 2));

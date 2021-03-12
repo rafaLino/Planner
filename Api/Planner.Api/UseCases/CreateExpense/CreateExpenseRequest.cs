@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Planner.Api.UseCases.CreateExpense
 {
     public class CreateExpenseRequest
     {
         [Required]
-        public string AccountId { get; set; }
+        public Guid AccountId { get; set; }
 
         [Required]
         public string Title { get; set; }

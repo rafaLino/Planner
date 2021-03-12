@@ -1,4 +1,5 @@
 ﻿using Planner.Domain.ValueObjects;
+using System;
 
 namespace Planner.Domain.Accounts
 {
@@ -9,10 +10,11 @@ namespace Planner.Domain.Accounts
         public virtual AmountRecordCollection AmountRecords { get; protected set; }
 
         public virtual MonthYear ReferenceDate { get; protected set; }
-        public abstract string Id { get; protected set; }
+        public abstract Guid Id { get; protected set; }
 
         protected FinanceStatement(Title title)
         {
+            Id = Guid.NewGuid();
             Title = title;
             ReferenceDate = MonthYear.Now;
             AmountRecords = new AmountRecordCollection();
@@ -20,6 +22,7 @@ namespace Planner.Domain.Accounts
 
         protected FinanceStatement(Title title, Amount amount)
         {
+            Id = Guid.NewGuid();
             Title = title;
             ReferenceDate = MonthYear.Now;
             AmountRecords = new AmountRecordCollection();
@@ -29,14 +32,10 @@ namespace Planner.Domain.Accounts
 
         protected FinanceStatement() { }
 
-        public virtual void UpdateInfo(Title title)
+        public virtual void Update(Title title)
         {
             Title = title;
         }
 
-        public virtual void UpdateId(string id)
-        {
-            Id = id;
-        }
     }
 }

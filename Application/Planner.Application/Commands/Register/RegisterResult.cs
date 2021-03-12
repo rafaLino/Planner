@@ -1,7 +1,9 @@
-﻿namespace Planner.Application.Commands.Register
+﻿using System;
+
+namespace Planner.Application.Commands.Register
 {
     public class RegisterResult
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

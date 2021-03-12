@@ -7,7 +7,7 @@ namespace Planner.Domain.Accounts
 {
     public sealed class Account : IEntity
     {
-        public string Id { get; private set; }
+        public Guid Id { get; private set; }
 
         public bool Actived { get; private set; }
 
@@ -22,13 +22,14 @@ namespace Planner.Domain.Accounts
 
         public Account(bool actived = true)
         {
+            Id = Guid.NewGuid();
             Actived = actived;
             Incomes = new FinanceStatementCollection();
             Expenses = new FinanceStatementCollection();
             Investments = new FinanceStatementCollection();
         }
 
-        public static Account Load(string id, bool actived, FinanceStatementCollection incomes, FinanceStatementCollection expenses, FinanceStatementCollection investments)
+        public static Account Load(Guid id, bool actived, FinanceStatementCollection incomes, FinanceStatementCollection expenses, FinanceStatementCollection investments)
         {
             Account account = new Account();
             account.Id = id;
@@ -80,7 +81,7 @@ namespace Planner.Domain.Accounts
                    .Concat(Investments.GetFinanceStatements());
         }
 
-        public void UpdateId(string id)
+        public void UpdateId(Guid id)
         {
             Id = id;
         }

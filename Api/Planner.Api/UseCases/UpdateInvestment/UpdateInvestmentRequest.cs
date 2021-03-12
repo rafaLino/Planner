@@ -5,10 +5,10 @@ namespace Planner.Api.UseCases.UpdateInvestment
     public class UpdateInvestmentRequest
     {
         [Required]
-        public string AccountId { get; set; }
+        public System.Guid AccountId { get; set; }
 
         [Required]
-        public string InvestmentId { get; set; }
+        public System.Guid InvestmentId { get; set; }
 
         [Required]
         public string Title { get; set; }

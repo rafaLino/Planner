@@ -6,7 +6,7 @@ namespace Planner.Application.Results
 {
     public class FinanceStatementQueryResult
     {
-        public FinanceStatementQueryResult(string id, string title, decimal financeStatementTotal, AmountRecordCollection amountRecords)
+        public FinanceStatementQueryResult(System.Guid id, string title, decimal financeStatementTotal, AmountRecordCollection amountRecords)
         {
             Id = id;
             Title = title;
@@ -21,7 +21,7 @@ namespace Planner.Application.Results
 
         }
 
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
         public string Title { get; }
         public decimal Total { get; }
         public double Percentage { get; }

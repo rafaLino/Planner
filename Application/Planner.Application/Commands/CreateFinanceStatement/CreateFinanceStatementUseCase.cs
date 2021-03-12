@@ -3,6 +3,7 @@ using Planner.Application.Repositories;
 using Planner.Domain.Accounts;
 using Planner.Domain.ValueObjects;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Planner.Application.Commands.CreateFinanceStatement
@@ -19,7 +20,7 @@ namespace Planner.Application.Commands.CreateFinanceStatement
             _accountWriteOnlyRepository = accountWriteOnlyRepository;
         }
 
-        public async Task<CreateFinanceStatementResult> Execute<T>(string accountId, Title title, Amount amount = null) where T : class, IFinanceStatement
+        public async Task<CreateFinanceStatementResult> Execute<T>(Guid accountId, Title title, Amount amount = null) where T : class, IFinanceStatement
         {
             Account account = await _accountReadOnlyRepository.Get(accountId);
 
@@ -44,6 +45,12 @@ namespace Planner.Application.Commands.CreateFinanceStatement
                 Id = financeStatement.Id,
                 Total = financeStatement.AmountRecords.Total(),
                 Percentage = financeStatement.AmountRecords.Percentage(collection.Total()),
+                AmountRecords = financeStatement.AmountRecords.GetAmountRecords().Select(x => new Results.AmountRecordResult
+                {
+                    Id = x.Id,
+                    Amount = x.Amount,
+                    Description = x.Description
+                }),
                 Income = new Results.FinanceStatementResult
                 {
                     Total = totalIncomes

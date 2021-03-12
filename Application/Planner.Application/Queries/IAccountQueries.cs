@@ -5,6 +5,6 @@ namespace Planner.Application.Queries
 {
     public interface IAccountQueries
     {
-        Task<AccountQueryResult> GetAccount(string accountId);
+        Task<AccountQueryResult> GetAccount(System.Guid accountId);
     }
 }

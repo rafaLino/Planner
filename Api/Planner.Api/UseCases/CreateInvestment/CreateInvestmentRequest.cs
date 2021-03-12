@@ -5,7 +5,7 @@ namespace Planner.Api.UseCases.CreateInvestment
     public class CreateInvestmentRequest
     {
         [Required]
-        public string AccountId { get; set; }
+        public System.Guid AccountId { get; set; }
 
         [Required]
         public string Title { get; set; }

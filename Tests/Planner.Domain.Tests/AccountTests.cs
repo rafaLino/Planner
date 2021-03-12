@@ -1,4 +1,5 @@
 ﻿using Planner.Domain.Accounts;
+using Planner.Domain.ValueObjects;
 using System;
 using Xunit;
 
@@ -49,11 +50,10 @@ namespace Planner.Domain.Tests
         [Fact]
         public void Should_Get_Expense()
         {
-            string expenseId = Guid.NewGuid().ToString();
+            Guid expenseId = Guid.NewGuid();
             Account account = new Account();
 
-            Expense expense = new Expense("despesas");
-            expense.UpdateId(expenseId);
+            Expense expense = Expense.Load(expenseId, "despesas", null, MonthYear.Now);
 
             account.GetCollecion<Expense>().Add(expense);
 
@@ -66,12 +66,10 @@ namespace Planner.Domain.Tests
         [Fact]
         public void Should_Get_Income()
         {
-            string incomeId = Guid.NewGuid().ToString();
+            Guid incomeId = Guid.NewGuid();
             Account account = new Account();
 
-            Income income = new Income("bonus");
-            income.UpdateId(incomeId);
-
+            Income income = Income.Load(incomeId, "bonus", null, MonthYear.Now);
             account.GetCollecion<Income>().Add(income);
 
             var result = account.Get<Income>(x => x.Id == incomeId);
@@ -83,11 +81,10 @@ namespace Planner.Domain.Tests
         [Fact]
         public void Should_Get_Investment()
         {
-            string investmentId = Guid.NewGuid().ToString();
+            Guid investmentId = Guid.NewGuid();
             Account account = new Account();
 
-            Investment investment = new Investment("bonus");
-            investment.UpdateId(investmentId);
+            Investment investment = Investment.Load(investmentId, "bonus", null, MonthYear.Now);
 
             account.GetCollecion<Investment>().Add(investment);
 

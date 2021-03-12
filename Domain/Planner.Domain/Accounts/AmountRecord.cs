@@ -1,10 +1,11 @@
 ﻿using Planner.Domain.ValueObjects;
+using System;
 
 namespace Planner.Domain.Accounts
 {
     public sealed class AmountRecord : IEntity
     {
-        public string Id { get; private set; }
+        public Guid Id { get; private set; }
 
         public string Description { get; private set; }
 
@@ -12,11 +13,13 @@ namespace Planner.Domain.Accounts
 
         public AmountRecord(Amount amount)
         {
+            Id = Guid.NewGuid();
             Amount = amount;
         }
 
         public AmountRecord(Amount amount, string description)
         {
+            Id = Guid.NewGuid();
             Amount = amount;
             Description = description;
         }
@@ -30,19 +33,15 @@ namespace Planner.Domain.Accounts
             Description = description ?? Description;
         }
 
-        public static AmountRecord Load(string id, string description, Amount amount)
+        public static AmountRecord Load(Guid? id, string description, Amount amount)
         {
             AmountRecord amountRecord = new AmountRecord();
-            amountRecord.Id = id;
+            amountRecord.Id = id ?? Guid.NewGuid();
             amountRecord.Description = description;
             amountRecord.Amount = amount;
             return amountRecord;
         }
 
-        public void UpdateId(string id)
-        {
-            Id = id;
-        }
 
     }
 }

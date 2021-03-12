@@ -1,12 +1,13 @@
 ﻿using Planner.Domain.ValueObjects;
+using System;
 
 namespace Planner.Domain.Users
 {
     public sealed class User : IEntity
     {
 
-        public string AccountId { get; private set; }
-        public string Id { get; private set; }
+        public Guid AccountId { get; private set; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public Email Email { get; private set; }
         public string Password { get; private set; }
@@ -21,12 +22,12 @@ namespace Planner.Domain.Users
         }
 
 
-        public void Register(string accountId)
+        public void Register(Guid accountId)
         {
             AccountId = accountId;
         }
 
-        public static User Load(string accountId, string id, string name, Email email, string password)
+        public static User Load(Guid accountId, Guid id, string name, Email email, string password)
         {
             User user = new User();
             user.AccountId = accountId;

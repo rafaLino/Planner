@@ -17,9 +17,9 @@ namespace Planner.Application.Results
 
             Total = new TotalQueryResult(total, percent);
 
-            Content = investments.GetFinanceStatements().Select(expense =>
+            Content = investments.GetFinanceStatements().Select(investment =>
             {
-                return new FinanceStatementQueryResult(expense.Id, expense.Title, total, expense.AmountRecords);
+                return new FinanceStatementQueryResult(investment.Id, investment.Title, total, investment.AmountRecords);
             });
 
         }

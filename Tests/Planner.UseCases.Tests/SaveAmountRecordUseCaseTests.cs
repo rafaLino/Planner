@@ -25,8 +25,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Add_Amount_Record_To_Expenses()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string expenseId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid expenseId = Guid.NewGuid();
             AmountRecord[] amountRecords = new AmountRecord[] {
 
                 new AmountRecord(700),
@@ -60,7 +60,7 @@ namespace Planner.UseCases.Tests
             Assert.Equal(expectedPercentage, Math.Round(result.Percentage * 100, 2));
             Assert.Equal(expectedExpenseTotal, result.Expense.Total);
             Assert.Equal(expectedExpensePercentage, Math.Round(result.Expense.Percentage * 100, 2));
-
+            Assert.NotEmpty(result.AmountRecords);
 
             _accountReadOnlyRepository.Verify(x => x.Get(accountId), Times.Once);
             _accountWriteOnlyRepository.Verify(x => x.Update(account, It.IsAny<IFinanceStatement>()), Times.Once);
@@ -69,8 +69,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Add_Amount_Record_To_Income()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string incomeId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid incomeId = Guid.NewGuid();
             AmountRecord[] amountRecords = new AmountRecord[] { 
                 new AmountRecord(500),
                 new AmountRecord(300) 
@@ -107,8 +107,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Add_Amount_Record_To_Investment()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string investmentId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid investmentId = Guid.NewGuid();
             AmountRecord[] amountRecords = new AmountRecord[] { 
                 new AmountRecord(500),
                 new AmountRecord(300)
@@ -146,14 +146,15 @@ namespace Planner.UseCases.Tests
         [Fact]
         public void Should_Throw_Exception_Given_Nonexistent_Account()
         {
-            string accountId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid expenseId = Guid.NewGuid();
             AmountRecord[] amountRecords = new AmountRecord[] { new AmountRecord(124.99m) };
             _accountReadOnlyRepository
                 .Setup(x => x.Get(accountId))
                 .ReturnsAsync(default(Account))
                 .Verifiable();
 
-            Assert.ThrowsAsync<AccountNotFoundException>(() => _saveAmountRecordUseCase.Execute<Expense>(accountId, "internet", amountRecords));
+            Assert.ThrowsAsync<AccountNotFoundException>(() => _saveAmountRecordUseCase.Execute<Expense>(accountId, expenseId, amountRecords));
 
             _accountReadOnlyRepository.VerifyAll();
         }

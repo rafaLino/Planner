@@ -25,7 +25,7 @@ namespace Planner.Api.UseCases.SaveIncomeAmountRecords
         [HttpPatch]
         public async Task<IActionResult> Patch([FromBody] SaveIncomeAmountRecordRequest request)
         {
-            var amountRecords = request.AmountRecords.Select(x => new AmountRecord(x.Amount, x.Description));
+            var amountRecords = request.AmountRecords.Select(x => AmountRecord.Load(x.Id, x.Description, x.Amount));
             SaveAmountRecordResult result = await _useCase.Execute<Income>(request.AccountId, request.IncomeId, amountRecords);
             return Ok(result);
         }

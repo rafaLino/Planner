@@ -1,4 +1,5 @@
 ﻿using Planner.Domain.ValueObjects;
+using System;
 
 namespace Planner.Domain.Accounts
 {
@@ -6,7 +7,7 @@ namespace Planner.Domain.Accounts
     {
 
 
-        public override string Id { get; protected set; }
+        public override Guid Id { get; protected set; }
         public override Title Title { get; protected set; }
 
         public override AmountRecordCollection AmountRecords { get; protected set; }
@@ -23,7 +24,7 @@ namespace Planner.Domain.Accounts
 
         private Income() { }
 
-        public static Income Load(string id, Title title, AmountRecordCollection amountRecords, MonthYear referenceDate)
+        public static Income Load(Guid id, Title title, AmountRecordCollection amountRecords, MonthYear referenceDate)
         {
             Income income = new Income();
             income.Id = id;
@@ -33,6 +34,5 @@ namespace Planner.Domain.Accounts
             return income;
         }
 
-        public override void UpdateId(string id) => Id = id;
     }
 }

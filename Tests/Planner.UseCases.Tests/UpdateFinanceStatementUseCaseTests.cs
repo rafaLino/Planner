@@ -25,8 +25,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Update_Expense()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string expenseId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid expenseId = Guid.NewGuid();
             string name = "educação";
 
             Account account = AccountBuilder
@@ -51,8 +51,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public void Should_Throw_Exception_Given_Nonexistent_Account()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string expenseId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid expenseId = Guid.NewGuid();
 
             _accountReadOnlyRepository
                 .Setup(x => x.Get(accountId))
@@ -67,8 +67,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public void Should_Throws_Exception_Given_Existed_Title()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string expenseId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid expenseId = Guid.NewGuid();
             string name = "aluguel";
 
             Account account = AccountBuilder

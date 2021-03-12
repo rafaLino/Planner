@@ -11,6 +11,7 @@ using Planner.Api.Filters;
 using Planner.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,7 +33,14 @@ namespace Planner.Api
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Planner Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Planner Api",
+                    Version = "v1",
+
+                });
+                c.IncludeXmlComments(
+                    Path.ChangeExtension(typeof(Startup).Assembly.Location, "xml"));
             });
 
             services.AddCors(options =>

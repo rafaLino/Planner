@@ -1,8 +1,9 @@
 ﻿using Planner.Application.Exceptions;
 using Planner.Application.Repositories;
 using Planner.Domain.Accounts;
-using Planner.Domain.ValueObjects;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Planner.Application.Commands.SaveAmountRecord
@@ -17,7 +18,7 @@ namespace Planner.Application.Commands.SaveAmountRecord
             _accountWriteOnlyRepository = accountWriteOnlyRepository;
         }
 
-        public async Task<SaveAmountRecordResult> Execute<T>(string accountId, string financeStatementId, IEnumerable<AmountRecord> amountRecords) where T : class, IFinanceStatement
+        public async Task<SaveAmountRecordResult> Execute<T>(Guid accountId, Guid financeStatementId, IEnumerable<AmountRecord> amountRecords) where T : class, IFinanceStatement
         {
             Account account = await _accountReadOnlyRepository.Get(accountId);
 
@@ -41,6 +42,10 @@ namespace Planner.Application.Commands.SaveAmountRecord
                 Id = financeStatement.Id,
                 Total = financeStatement.AmountRecords.Total(),
                 Percentage = financeStatement.AmountRecords.Percentage(account.GetCollecion<T>().Total()),
+                AmountRecords = financeStatement.AmountRecords
+                .GetAmountRecords()
+                .Select(x => new Results.AmountRecordResult { Id = x.Id, Amount = x.Amount, Description = x.Description }),
+
                 Income = new Results.FinanceStatementResult
                 {
                     Total = incomeTotal,

@@ -1,6 +1,8 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using Planner.Application.Repositories;
 using Planner.Domain.Accounts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +19,7 @@ namespace Planner.Infrastructure.Repositories
         }
 
 
-        public async Task<Account> Get(string accountId)
+        public async Task<Account> Get(Guid accountId)
         {
             Entities.Account account = await _context
                 .Accounts
@@ -64,7 +66,7 @@ namespace Planner.Infrastructure.Repositories
 
                 AmountRecordCollection amountRecordCollection = new AmountRecordCollection(amountRecords.Select(x => AmountRecord.Load(x.Id, x.Description, x.Amount)));
 
-                expenseCollection.Add(Income.Load(expense.Id, expense.Title, amountRecordCollection, expense.ReferenceDate));
+                expenseCollection.Add(Expense.Load(expense.Id, expense.Title, amountRecordCollection, expense.ReferenceDate));
             }
 
             FinanceStatementCollection investmentsCollection = new FinanceStatementCollection();
@@ -77,7 +79,7 @@ namespace Planner.Infrastructure.Repositories
 
                 AmountRecordCollection amountRecordCollection = new AmountRecordCollection(amountRecords.Select(x => AmountRecord.Load(x.Id, x.Description, x.Amount)));
 
-                investmentsCollection.Add(Income.Load(investment.Id, investment.Title, amountRecordCollection, investment.ReferenceDate));
+                investmentsCollection.Add(Investment.Load(investment.Id, investment.Title, amountRecordCollection, investment.ReferenceDate));
             }
 
             Account result = Account.Load(
@@ -145,45 +147,44 @@ namespace Planner.Infrastructure.Repositories
                 AccountId = account.Id,
             };
 
-            IEnumerable<Entities.AmountRecord> amountRecordEntities = financeStatement
+            var replaceOptions = new ReplaceOptions { IsUpsert = true };
+            var financeStatementFilter = Builders<Entities.FinanceStatement>.Filter.Eq(x => x.Id, financeStatement.Id);
+
+            if (financeStatement is Income)
+                await _context.Incomes.ReplaceOneAsync(financeStatementFilter, financeStatementEntity, replaceOptions);
+
+            if (financeStatement is Expense)
+                await _context.Expenses.ReplaceOneAsync(financeStatementFilter, financeStatementEntity, replaceOptions);
+
+            if (financeStatement is Investment)
+                await _context.Investments.ReplaceOneAsync(financeStatementFilter, financeStatementEntity, replaceOptions);
+
+            await _context.AmountRecords
+                .Find(x => x.FinanceStatementId == financeStatement.Id)
+                .ForEachAsync(entity =>
+                {
+                    if (!financeStatement.AmountRecords.Contains(entity.Id))
+                        _context.AmountRecords.DeleteOneAsync(x => x.Id == entity.Id && x.FinanceStatementId == financeStatement.Id);
+                });
+
+            foreach (var amountRecord in financeStatement
                 .AmountRecords
-                .GetAmountRecords()
-                .Select(amountRecord => new Entities.AmountRecord
+                .GetAmountRecords())
+            {
+                var amountRecordEntity = new Entities.AmountRecord
                 {
                     Id = amountRecord.Id,
                     Amount = amountRecord.Amount,
                     Description = amountRecord.Description,
                     FinanceStatementId = financeStatement.Id
-                });
+                };
 
-            await _context.AmountRecords.InsertManyAsync(amountRecordEntities);
+                await _context.AmountRecords
+                    .ReplaceOneAsync(x => x.Id == amountRecord.Id && x.FinanceStatementId == financeStatement.Id,
+                    amountRecordEntity,
+                    replaceOptions);
+            }
 
-            if (financeStatement is Income)
-                await _context.Incomes.InsertOneAsync(financeStatementEntity);
-
-            if (financeStatement is Expense)
-                await _context.Expenses.InsertOneAsync(financeStatementEntity);
-
-            if (financeStatement is Investment)
-                await _context.Investments.InsertOneAsync(financeStatementEntity);
-
-            ((FinanceStatement)financeStatement).UpdateId(financeStatementEntity.Id);
-
-        }
-
-        public async Task Update(Account account, IFinanceStatement financeStatement, AmountRecord amountRecord)
-        {
-            Entities.AmountRecord amountRecordEntity = new Entities.AmountRecord
-            {
-                Id = amountRecord.Id,
-                Amount = amountRecord.Amount,
-                Description = amountRecord.Description,
-                FinanceStatementId = financeStatement.Id
-            };
-
-            await _context.AmountRecords.InsertOneAsync(amountRecordEntity);
-
-            amountRecord.UpdateId(amountRecordEntity.Id);
         }
     }
 }

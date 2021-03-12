@@ -5,9 +5,9 @@ namespace Planner.Api.UseCases.RemoveExpense
     public class RemoveExpenseRequest
     {
         [Required]
-        public string AccountId { get; set; }
+        public System.Guid AccountId { get; set; }
 
         [Required]
-        public string ExpenseId { get; set; }
+        public System.Guid ExpenseId { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace Planner.Domain.Accounts
             _financeStatements.Add(item);
         }
 
-        public IFinanceStatement Get(string id)
+        public IFinanceStatement Get(Guid id)
         {
             return _financeStatements.SingleOrDefault(x => x.Id == id);
         }

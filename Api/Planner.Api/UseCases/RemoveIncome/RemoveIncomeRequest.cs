@@ -5,9 +5,9 @@ namespace Planner.Api.UseCases.RemoveIncome
     public class RemoveIncomeRequest
     {
         [Required]
-        public string AccountId { get; set; }
+        public System.Guid AccountId { get; set; }
 
         [Required]
-        public string IncomeId { get; set; }
+        public System.Guid IncomeId { get; set; }
     }
 }

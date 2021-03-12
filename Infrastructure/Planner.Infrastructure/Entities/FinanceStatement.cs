@@ -2,12 +2,13 @@
 
 namespace Planner.Infrastructure.Entities
 {
-    public class FinanceStatement : Entity
+    public class FinanceStatement
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
 
         public DateTime ReferenceDate { get; set; }
 
-        public string AccountId { get; set; }
+        public Guid AccountId { get; set; }
     }
 }

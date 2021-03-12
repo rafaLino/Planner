@@ -1,6 +1,7 @@
 ﻿using Planner.Application.Exceptions;
 using Planner.Application.Repositories;
 using Planner.Domain.Accounts;
+using System;
 using System.Threading.Tasks;
 
 namespace Planner.Application.Commands.RemoveFinanceStatement
@@ -16,7 +17,7 @@ namespace Planner.Application.Commands.RemoveFinanceStatement
             _accountWriteOnlyRepository = accountWriteOnlyRepository;
         }
 
-        public async Task<RemoveFinanceStatementResult> Execute<T>(string accountId, string financeStatementId) where T : class, IFinanceStatement
+        public async Task<RemoveFinanceStatementResult> Execute<T>(Guid accountId, Guid financeStatementId) where T : class, IFinanceStatement
         {
             Account account = await _accountReadOnlyRepository.Get(accountId);
 

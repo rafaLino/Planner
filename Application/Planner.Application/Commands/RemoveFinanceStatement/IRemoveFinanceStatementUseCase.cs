@@ -1,4 +1,5 @@
 ﻿using Planner.Domain.Accounts;
+using System;
 using System.Threading.Tasks;
 
 namespace Planner.Application.Commands.RemoveFinanceStatement
@@ -6,6 +7,6 @@ namespace Planner.Application.Commands.RemoveFinanceStatement
     public interface IRemoveFinanceStatementUseCase
     {
 
-        Task<RemoveFinanceStatementResult> Execute<T>(string accountId, string financeStatementId) where T : class, IFinanceStatement;
+        Task<RemoveFinanceStatementResult> Execute<T>(Guid accountId, Guid financeStatementId) where T : class, IFinanceStatement;
     }
 }

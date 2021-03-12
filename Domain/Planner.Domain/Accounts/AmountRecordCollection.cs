@@ -45,12 +45,17 @@ namespace Planner.Domain.Accounts
                 _amountRecords.Add(item);
         }
 
-        public AmountRecord Get(string id)
+        public AmountRecord Get(Guid id)
         {
             return _amountRecords.FirstOrDefault(x => x.Id == id);
         }
 
-        public AmountRecord Remove(string id)
+        public bool Contains(Guid id)
+        {
+            return _amountRecords.Any(x => x.Id == id);
+        }
+
+        public AmountRecord Remove(Guid id)
         {
             AmountRecord amountRecord = Get(id);
             bool removed = _amountRecords.Remove(amountRecord);

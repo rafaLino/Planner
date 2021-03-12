@@ -5,7 +5,7 @@ namespace Planner.Application.Results
 {
     public class AccountQueryResult
     {
-        public string AccountId { get; }
+        public System.Guid AccountId { get; }
 
         public decimal CurrentBalance { get; }
 
@@ -14,7 +14,7 @@ namespace Planner.Application.Results
         public InvestmentCardResult Investments { get; }
 
 
-        public AccountQueryResult(string accountId, FinanceStatementCollection expenses, FinanceStatementCollection incomes, FinanceStatementCollection investments)
+        public AccountQueryResult(System.Guid accountId, FinanceStatementCollection expenses, FinanceStatementCollection incomes, FinanceStatementCollection investments)
         {
             decimal totalIncomes = incomes.Total();
             AccountId = accountId;

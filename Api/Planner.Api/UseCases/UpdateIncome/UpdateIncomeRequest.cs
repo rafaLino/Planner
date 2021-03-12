@@ -5,10 +5,10 @@ namespace Planner.Api.UseCases.UpdateIncome
     public class UpdateIncomeRequest
     {
         [Required]
-        public string AccountId { get; set; }
+        public System.Guid AccountId { get; set; }
 
         [Required]
-        public string IncomeId { get; set; }
+        public System.Guid IncomeId { get; set; }
 
         [Required]
         public string Title { get; set; }

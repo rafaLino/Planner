@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using Planner.Infrastructure.Entities;
 
@@ -71,25 +72,43 @@ namespace Planner.Infrastructure
 
         private void Map()
         {
+            var serializer = new GuidSerializer(MongoDB.Bson.BsonType.String);
             BsonClassMap.RegisterClassMap<Account>(cm =>
             {
                 cm.AutoMap();
+                cm.MapIdField(x => x.Id)
+                .SetSerializer(serializer)
+                .SetIgnoreIfDefault(true);
             });
 
             BsonClassMap.RegisterClassMap<User>(cm =>
             {
                 cm.AutoMap();
+                cm.MapIdField(x => x.Id)
+                .SetSerializer(serializer);
+
+                cm.GetMemberMap(x => x.AccountId)
+                .SetSerializer(serializer);
             });
 
             BsonClassMap.RegisterClassMap<FinanceStatement>(cm =>
             {
                 cm.AutoMap();
+                cm.MapIdField(x => x.Id)
+                .SetSerializer(serializer);
+
+                cm.GetMemberMap(x => x.AccountId).SetSerializer(serializer);
             });
 
             BsonClassMap.RegisterClassMap<AmountRecord>(cm =>
             {
                 cm.AutoMap();
+                cm.MapIdField(x => x.Id)
+                .SetSerializer(serializer);
+
+                cm.GetMemberMap(x => x.FinanceStatementId).SetSerializer(serializer);
             });
         }
+
     }
 }

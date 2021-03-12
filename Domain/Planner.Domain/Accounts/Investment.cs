@@ -1,10 +1,11 @@
 ﻿using Planner.Domain.ValueObjects;
+using System;
 
 namespace Planner.Domain.Accounts
 {
     public sealed class Investment : FinanceStatement, IEntity
     {
-        public override string Id { get; protected set; }
+        public override Guid Id { get; protected set; }
         public override Title Title { get; protected set; }
         public override AmountRecordCollection AmountRecords { get; protected set; }
         public override MonthYear ReferenceDate { get; protected set; }
@@ -19,7 +20,7 @@ namespace Planner.Domain.Accounts
 
         private Investment() { }
 
-        public static Investment Load(string id, Title title, AmountRecordCollection amountRecords, MonthYear referenceDate)
+        public static Investment Load(Guid id, Title title, AmountRecordCollection amountRecords, MonthYear referenceDate)
         {
             Investment investment = new Investment();
             investment.Id = id;
@@ -28,7 +29,5 @@ namespace Planner.Domain.Accounts
             investment.ReferenceDate = referenceDate;
             return investment;
         }
-
-        public override void UpdateId(string id) => Id = id;
     }
 }

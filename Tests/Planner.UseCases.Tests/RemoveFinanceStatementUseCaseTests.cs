@@ -29,8 +29,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public void Should_Throws_Exception_Given_Nonexistent_Account()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string expenseId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid expenseId = Guid.NewGuid();
 
             _accountReadOnlyRepository
                 .Setup(x => x.Get(accountId))
@@ -44,8 +44,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Remove_Expense()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string expenseId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid expenseId = Guid.NewGuid();
             Account account = AccountBuilder
                                     .New
                                     .WithId(accountId)
@@ -80,8 +80,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Remove_Income()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string IncomeId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid IncomeId = Guid.NewGuid();
             Account account = AccountBuilder
                                     .New
                                     .WithId(accountId)
@@ -113,8 +113,8 @@ namespace Planner.UseCases.Tests
         [Fact]
         public async Task Should_Remove_Investment()
         {
-            string accountId = Guid.NewGuid().ToString();
-            string InvestmentId = Guid.NewGuid().ToString();
+            Guid accountId = Guid.NewGuid();
+            Guid InvestmentId = Guid.NewGuid();
             Account account = AccountBuilder
                                     .New
                                     .WithId(accountId)

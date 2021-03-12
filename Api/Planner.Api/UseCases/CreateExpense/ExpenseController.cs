@@ -16,6 +16,11 @@ namespace Planner.Api.UseCases.CreateExpense
             _create = create;
         }
 
+        /// <summary>
+        /// Create an expense
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateExpenseRequest request)
         {
