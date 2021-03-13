@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Planner.Application.Commands.Register;
+using Planner.Application.Commands.SignUp;
 using System.Threading.Tasks;
 
-namespace Planner.Api.UseCases.Register
+namespace Planner.Api.UseCases.SignUp
 {
     /// <summary>
     /// 
@@ -12,15 +12,15 @@ namespace Planner.Api.UseCases.Register
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IRegisterUseCase _register;
+        private readonly ISignUpUseCase _useCase;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="register"></param>
-        public UserController(IRegisterUseCase register)
+        /// <param name="useCase"></param>
+        public UserController(ISignUpUseCase useCase)
         {
-            _register = register;
+            _useCase = useCase;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Planner.Api.UseCases.Register
         [HttpPost]
         public async Task<IActionResult> Post()
         {
-            RegisterResult result = await _register.Execute(null);
+            SignUpResult result = await _useCase.Execute(null);
 
             return Created(Request.Path, result);
         }

@@ -12,25 +12,22 @@ namespace Planner.Domain.Users
         public Email Email { get; private set; }
         public Password Password { get; private set; }
 
+        public Picture Picture { get; set; }
+
         private User() { }
 
-        public User(Guid accountId, Email email, Password password, string name)
+        public User(Guid accountId, Email email, Password password, string name, Picture picture = null)
         {
             Id = Guid.NewGuid();
             AccountId = accountId;
             Email = email;
             Name = name;
             Password = password;
+            Picture = picture;
 
         }
 
-
-        public void Register(Guid accountId)
-        {
-            AccountId = accountId;
-        }
-
-        public static User Load(Guid accountId, Guid id, string name, Email email, Password password)
+        public static User Load(Guid accountId, Guid id, Email email, Password password, string name, Picture picture)
         {
             User user = new User();
             user.AccountId = accountId;
@@ -38,6 +35,7 @@ namespace Planner.Domain.Users
             user.Name = name;
             user.Email = email;
             user.Password = password;
+            user.Picture = picture;
             return user;
         }
     }

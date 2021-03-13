@@ -7,5 +7,7 @@ namespace Planner.Application.Repositories
     public interface IUserReadOnlyRepository
     {
         Task<User> Get(Email email);
+
+        Task<bool> Any(Email email);
     }
 }
