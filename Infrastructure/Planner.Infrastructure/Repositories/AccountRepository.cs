@@ -102,7 +102,6 @@ namespace Planner.Infrastructure.Repositories
 
             await _context.Accounts.InsertOneAsync(accountEntity);
 
-            account.UpdateId(accountEntity.Id);
         }
 
         public async Task Remove(Account account)

@@ -1,5 +1,6 @@
 ﻿using Planner.Domain.Utils;
 using Planner.Domain.ValueObjects.Exceptions;
+using System;
 
 namespace Planner.Domain.ValueObjects
 {
@@ -12,7 +13,15 @@ namespace Planner.Domain.ValueObjects
             if (string.IsNullOrWhiteSpace(text))
                 throw new TitleShouldNotBeEmptyException("The title is required!");
 
-            _text = text;
+            _text = Capitalize(text);
+        }
+
+        private string Capitalize(string text)
+        {
+            Span<char> characters = stackalloc char[text.Length];
+            text.AsSpan(1).CopyTo(characters.Slice(1));
+            characters[0] = char.ToUpper(text[0]);
+            return new string(characters);
         }
 
         public static implicit operator Title(string text)

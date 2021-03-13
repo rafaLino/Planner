@@ -10,15 +10,18 @@ namespace Planner.Domain.Users
         public Guid Id { get; private set; }
         public string Name { get; private set; }
         public Email Email { get; private set; }
-        public string Password { get; private set; }
+        public Password Password { get; private set; }
 
         private User() { }
 
-        public User(Email email, string name, string password)
+        public User(Guid accountId, Email email, Password password, string name)
         {
+            Id = Guid.NewGuid();
+            AccountId = accountId;
             Email = email;
             Name = name;
             Password = password;
+
         }
 
 
@@ -27,7 +30,7 @@ namespace Planner.Domain.Users
             AccountId = accountId;
         }
 
-        public static User Load(Guid accountId, Guid id, string name, Email email, string password)
+        public static User Load(Guid accountId, Guid id, string name, Email email, Password password)
         {
             User user = new User();
             user.AccountId = accountId;

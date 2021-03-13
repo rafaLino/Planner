@@ -76,14 +76,9 @@ namespace Planner.Domain.Accounts
 
         public IEnumerable<IFinanceStatement> GetAll()
         {
-           return Incomes.GetFinanceStatements()
-                   .Concat(Expenses.GetFinanceStatements())
-                   .Concat(Investments.GetFinanceStatements());
-        }
-
-        public void UpdateId(Guid id)
-        {
-            Id = id;
+            return Incomes.GetFinanceStatements()
+                    .Concat(Expenses.GetFinanceStatements())
+                    .Concat(Investments.GetFinanceStatements());
         }
 
         private bool IsExpense(Type type)

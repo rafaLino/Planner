@@ -5,12 +5,20 @@ using System.Threading.Tasks;
 
 namespace Planner.Api.UseCases.CreateExpense
 {
+    /// <summary>
+    /// Expense
+    /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ExpenseController : ControllerBase
     {
         private readonly ICreateFinanceStatementUseCase _create;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="create"></param>
         public ExpenseController(ICreateFinanceStatementUseCase create)
         {
             _create = create;
@@ -20,7 +28,7 @@ namespace Planner.Api.UseCases.CreateExpense
         /// Create an expense
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
+        /// <returns>Return expense result</returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateExpenseRequest request)
         {

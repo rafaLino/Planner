@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace Planner.Api.UseCases.SaveExpenseAmountRecords
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ExpenseController : ControllerBase
     {
         private readonly ISaveAmountRecordUseCase _useCase;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="useCase"></param>
         public ExpenseController(ISaveAmountRecordUseCase useCase)
         {
             _useCase = useCase;
@@ -21,7 +29,7 @@ namespace Planner.Api.UseCases.SaveExpenseAmountRecords
         /// Update amount records of expense
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>200</returns>
+        /// <returns code="200"> return expense result</returns>
         [HttpPatch]
         public async Task<IActionResult> Patch([FromBody] SaveExpenseAmountRecordRequest request)
         {

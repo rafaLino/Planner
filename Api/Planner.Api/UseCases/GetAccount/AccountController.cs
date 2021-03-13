@@ -4,22 +4,30 @@ using System.Threading.Tasks;
 
 namespace Planner.Api.UseCases.GetAccount
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly IAccountQueries _accountQueries;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accountQueries"></param>
         public AccountController(IAccountQueries accountQueries)
         {
             _accountQueries = accountQueries;
         }
 
         /// <summary>
-        /// Get an account
+        /// Get fully account
         /// </summary>
         /// <param name="accountId"></param>
-        /// <returns>200</returns>
+        /// <returns code="200">Return account</returns>
         [HttpGet("{accountId}")]
         public async Task<IActionResult> Get(System.Guid accountId)
         {

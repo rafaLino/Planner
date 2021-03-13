@@ -9,12 +9,20 @@ using System.Threading.Tasks;
 
 namespace Planner.Api.UseCases.SaveInvestmentAmountRecords
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class InvestmentController : ControllerBase
     {
         private readonly ISaveAmountRecordUseCase _useCase;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="useCase"></param>
         public InvestmentController(ISaveAmountRecordUseCase useCase)
         {
             _useCase = useCase;
@@ -24,7 +32,7 @@ namespace Planner.Api.UseCases.SaveInvestmentAmountRecords
         /// Update amount records of expense
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>200</returns>
+        /// <returns code="200">return investment results</returns>
         [HttpPatch]
         public async Task<IActionResult> Patch([FromBody] SaveInvestmentAmountRecordRequest request)
         {
