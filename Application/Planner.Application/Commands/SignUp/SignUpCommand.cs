@@ -1,4 +1,5 @@
-﻿using Planner.Domain.ValueObjects;
+﻿using Planner.Domain.Users;
+using Planner.Domain.ValueObjects;
 
 namespace Planner.Application.Commands.SignUp
 {

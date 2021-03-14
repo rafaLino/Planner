@@ -2,7 +2,9 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 using Planner.Infrastructure.Entities;
+using System;
 
 namespace Planner.Infrastructure
 {
@@ -12,13 +14,27 @@ namespace Planner.Infrastructure
         private readonly IMongoClient _mongoClient;
         private readonly IMongoDatabase _dataBase;
         private readonly PlannerAppConfig _config;
-
+        private readonly IGridFSBucket<Guid> _bucket;
         public Context(IOptions<PlannerAppConfig> config)
         {
             _config = config.Value;
             _mongoClient = new MongoClient(_config.ConnectionString);
             _dataBase = _mongoClient.GetDatabase(_config.DataBase);
+            _bucket = new GridFSBucket<Guid>(_dataBase, new GridFSBucketOptions
+            {
+                BucketName = "profilePictures",
+                WriteConcern = WriteConcern.WMajority,
+                ReadPreference = ReadPreference.Secondary
+            });
             Map();
+        }
+
+        public IGridFSBucket<Guid> Bucket
+        {
+            get
+            {
+                return _bucket;
+            }
         }
 
         public IMongoCollection<Account> Accounts

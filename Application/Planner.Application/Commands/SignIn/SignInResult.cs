@@ -1,4 +1,4 @@
-﻿using Planner.Domain.ValueObjects;
+﻿using Planner.Domain.Users;
 using System;
 
 namespace Planner.Application.Commands.SignIn

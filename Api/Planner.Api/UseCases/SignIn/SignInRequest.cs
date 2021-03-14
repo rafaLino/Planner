@@ -1,22 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Planner.Api.UseCases.RemoveExpense
+namespace Planner.Api.UseCases.SignIn
 {
     /// <summary>
     /// 
     /// </summary>
-    public class RemoveExpenseRequest
+    public class SignInRequest
     {
         /// <summary>
-        /// account id
+        /// Email
         /// </summary>
         [Required]
-        public System.Guid AccountId { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
-        /// expense id
+        /// Password
         /// </summary>
         [Required]
-        public System.Guid ExpenseId { get; set; }
+        public string Password { get; set; }
     }
 }

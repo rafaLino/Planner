@@ -27,7 +27,7 @@ namespace Planner.Domain.Users
 
         }
 
-        public static User Load(Guid accountId, Guid id, Email email, Password password, string name, Picture picture)
+        public static User Load(Guid accountId, Guid id, string name, Email email, Password password, Picture picture)
         {
             User user = new User();
             user.AccountId = accountId;

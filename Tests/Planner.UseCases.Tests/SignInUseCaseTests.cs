@@ -30,7 +30,7 @@ namespace Planner.UseCases.Tests
             Guid id = Guid.NewGuid();
 
 
-            User user = User.Load(accountId, id, email, Password.Create(password), "jubileu", null);
+            User user = User.Load(accountId, id, "jubileu", email, Password.Create(password), null);
 
             _userReadOnlyRepository
                 .Setup(x => x.Get(email))
@@ -56,7 +56,7 @@ namespace Planner.UseCases.Tests
             Guid id = Guid.NewGuid();
 
 
-            User user = User.Load(accountId, id, email, Password.Create("anotherPassword"), "jubileu", null);
+            User user = User.Load(accountId, id, "jubileu", email, Password.Create("anotherPassword"), null);
 
             _userReadOnlyRepository
                 .Setup(x => x.Get(email))
