@@ -30,7 +30,7 @@ namespace Planner.Application.Commands.SignIn
                 AccountId = user.AccountId,
                 UserId = user.Id,
                 Name = user.Name,
-                Picture = user.Picture
+                Bytes = user.Picture?._bytes
             };
 
             return result;

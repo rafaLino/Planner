@@ -17,7 +17,7 @@ namespace Planner.Api.Model
         /// file size
         /// </summary>
         [Required]
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         /// <summary>
         /// file name

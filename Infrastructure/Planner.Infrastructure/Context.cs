@@ -24,7 +24,7 @@ namespace Planner.Infrastructure
             {
                 BucketName = "profilePictures",
                 WriteConcern = WriteConcern.WMajority,
-                ReadPreference = ReadPreference.Secondary
+                ReadPreference = ReadPreference.Secondary,
             });
             Map();
         }
@@ -86,7 +86,7 @@ namespace Planner.Infrastructure
             }
         }
 
-        private void Map()
+        private static void Map()
         {
             var serializer = new GuidSerializer(MongoDB.Bson.BsonType.String);
             BsonClassMap.RegisterClassMap<Account>(cm =>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Planner.Api.Model;
 using Planner.Application.Commands.SignIn;
 using System;
 using System.Collections.Generic;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Planner.Api.Filters
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class ValidateModelAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -12,3 +13,4 @@ namespace Planner.Api.Filters
         }
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

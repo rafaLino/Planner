@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Planner.Domain.Tests", "Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Planner.UseCases.Tests", "Tests\Planner.UseCases.Tests\Planner.UseCases.Tests.csproj", "{381B138D-789F-44F4-8FC9-9C8324E0D0C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planner.Api.Tests", "Tests\Planner.Api.Tests\Planner.Api.Tests.csproj", "{7B095C5F-9DDA-4F49-B04D-35886366F507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Planner.Api.Tests", "Tests\Planner.Api.Tests\Planner.Api.Tests.csproj", "{7B095C5F-9DDA-4F49-B04D-35886366F507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

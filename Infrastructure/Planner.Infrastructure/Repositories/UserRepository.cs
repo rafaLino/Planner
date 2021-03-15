@@ -91,7 +91,7 @@ namespace Planner.Infrastructure.Repositories
 
             byte[] bytes = await _context.Bucket.DownloadAsBytesAsync(id);
 
-            return Picture.Load(bytes, info.Length, info.Metadata.AsString, info.Filename);
+            return Picture.Load(bytes, info.Length, info.Metadata["type"].AsString, info.Filename);
         }
     }
 }

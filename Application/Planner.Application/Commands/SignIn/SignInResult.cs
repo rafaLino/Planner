@@ -10,6 +10,6 @@ namespace Planner.Application.Commands.SignIn
         public Guid UserId { get; set; }
 
         public string Name { get; set; }
-        public Picture Picture { get; set; }
+        public byte[] Bytes { get; set; }
     }
 }
