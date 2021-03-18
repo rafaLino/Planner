@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Planner.Application.Commands.UpdateFinanceStatement;
 using Planner.Domain.Accounts;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace Planner.Api.UseCases.UpdateInvestment
         /// <param name="request"></param>
         /// <returns code="204"></returns>
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Put([FromBody] UpdateInvestmentRequest request)
         {
             await _update.Execute<Investment>(request.AccountId, request.InvestmentId, request.Title);

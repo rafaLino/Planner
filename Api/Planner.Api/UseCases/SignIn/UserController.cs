@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Planner.Api.Model;
 using Planner.Application.Commands.SignIn;
@@ -34,6 +35,7 @@ namespace Planner.Api.UseCases.SignIn
         /// <param name="request"></param>
         /// <returns code="200">logged result</returns>
         [HttpPost("SignIn")]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] SignInRequest request)
         {
             Application.Commands.SignIn.SignInResult result = await _useCase.Execute(request.Email, request.Password);

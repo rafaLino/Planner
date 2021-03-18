@@ -1,4 +1,4 @@
-﻿using Planner.Domain.Users;
+﻿using Planner.Application.Results;
 using System;
 
 namespace Planner.Application.Commands.SignIn
@@ -10,6 +10,8 @@ namespace Planner.Application.Commands.SignIn
         public Guid UserId { get; set; }
 
         public string Name { get; set; }
-        public byte[] Bytes { get; set; }
+
+        public PictureResult Picture { get; set; }
+        public string Token { get; set; }
     }
 }

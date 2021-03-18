@@ -8,4 +8,8 @@
     <None Remove="Accounts\Account.cs~RF1e65661.TMP" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.9.0" />
+  </ItemGroup>
+
 </Project>

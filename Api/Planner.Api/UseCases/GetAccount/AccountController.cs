@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Planner.Application.Queries;
 using System.Threading.Tasks;
 
@@ -29,6 +30,7 @@ namespace Planner.Api.UseCases.GetAccount
         /// <param name="accountId"></param>
         /// <returns code="200">Return account</returns>
         [HttpGet("{accountId}")]
+        [Authorize]
         public async Task<IActionResult> Get(System.Guid accountId)
         {
             var account = await _accountQueries.GetAccount(accountId);

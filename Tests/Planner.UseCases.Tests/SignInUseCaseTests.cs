@@ -41,6 +41,7 @@ namespace Planner.UseCases.Tests
             Assert.Equal(accountId, result.AccountId);
             Assert.Equal(id, result.UserId);
             Assert.Equal(user.Name, result.Name);
+            Assert.NotNull(result.Token);
 
             _userReadOnlyRepository.Verify(x => x.Get(email), Times.Once);
         }

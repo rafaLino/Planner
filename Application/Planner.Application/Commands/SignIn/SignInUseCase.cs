@@ -1,4 +1,5 @@
-﻿using Planner.Application.Exceptions;
+﻿using Microsoft.Extensions.Options;
+using Planner.Application.Exceptions;
 using Planner.Application.Repositories;
 using Planner.Domain.Users;
 using Planner.Domain.ValueObjects;
@@ -25,12 +26,15 @@ namespace Planner.Application.Commands.SignIn
             if (!user.Password.Verify(password))
                 throw new PasswordNotMatchException("The password does not match");
 
+            string token = Token.Generate(user);
+
             SignInResult result = new SignInResult
             {
                 AccountId = user.AccountId,
                 UserId = user.Id,
                 Name = user.Name,
-                Bytes = user.Picture?._bytes
+                Picture = user.Picture,
+                Token = token
             };
 
             return result;

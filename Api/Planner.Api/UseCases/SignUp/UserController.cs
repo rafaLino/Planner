@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Planner.Application.Commands.SignUp;
 using Planner.Domain.Users;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace Planner.Api.UseCases.SignUp
         /// </summary>
         /// <returns>return user account ids</returns>
         [HttpPost("SignUp")]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] SignUpRequest request)
         {
             Picture picture = null;

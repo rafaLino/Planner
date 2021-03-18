@@ -97,6 +97,7 @@ namespace Planner.Infrastructure.Repositories
         {
             Entities.Account accountEntity = new Entities.Account
             {
+                Id = account.Id,
                 Actived = account.Actived
             };
 
