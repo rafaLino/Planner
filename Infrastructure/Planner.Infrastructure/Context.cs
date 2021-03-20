@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 using Planner.Infrastructure.Entities;
 using System;
+using System.Security.Authentication;
 
 namespace Planner.Infrastructure
 {
@@ -17,8 +18,13 @@ namespace Planner.Infrastructure
         private readonly IGridFSBucket<Guid> _bucket;
         public Context(IOptions<PlannerAppConfig> config)
         {
+
             _config = config.Value;
-            _mongoClient = new MongoClient(_config.ConnectionString);
+            MongoClientSettings settings = MongoClientSettings.FromUrl(
+                        new MongoUrl(_config.ConnectionString));
+            settings.SslSettings =
+            new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
+            _mongoClient = new MongoClient(settings);
             _dataBase = _mongoClient.GetDatabase(_config.DataBase);
             _bucket = new GridFSBucket<Guid>(_dataBase, new GridFSBucketOptions
             {
