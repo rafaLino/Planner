@@ -20,6 +20,11 @@ jobs:
       with:
         dotnet-version: '5.0.x'
 
+    - name: MongoDB in GitHub Actions
+      uses: supercharge/mongodb-github-action@1.3.0
+      with:
+        mongodb-version: latest
+
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -27,7 +32,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
       
-    - name: Build with dotnet
+    - name: Build release
       run: dotnet build --configuration Release
       
     - name: dotnet publish
