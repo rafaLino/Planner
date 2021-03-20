@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Planner.Api.Model;
 using Planner.Application.Commands.SaveAmountRecord;
 using Planner.Domain.Accounts;
 using System;
@@ -36,10 +37,10 @@ namespace Planner.Api.UseCases.SaveInvestmentAmountRecords
         /// <returns code="200">return investment results</returns>
         [HttpPatch]
         [Authorize]
-        public async Task<IActionResult> Patch([FromBody] SaveInvestmentAmountRecordRequest request)
+        public async Task<IActionResult> Patch([FromBody] SaveAmountRecordRequest request)
         {
             var amountRecords = request.AmountRecords.Select(x => AmountRecord.Load(x.Id, x.Description, x.Amount));
-            SaveAmountRecordResult result = await _useCase.Execute<Investment>(request.AccountId, request.InvestmentId, amountRecords);
+            SaveAmountRecordResult result = await _useCase.Execute<Investment>(request.AccountId, request.Id, amountRecords);
             return Ok(result);
         }
     }

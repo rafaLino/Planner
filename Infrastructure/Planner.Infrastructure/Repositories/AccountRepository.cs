@@ -105,18 +105,6 @@ namespace Planner.Infrastructure.Repositories
 
         }
 
-        public async Task Remove(Account account)
-        {
-
-            foreach (var item in account.GetAll())
-            {
-                await _context.AmountRecords.DeleteManyAsync(x => x.FinanceStatementId == item.Id);
-            }
-            await _context.Expenses.DeleteManyAsync(x => x.AccountId == account.Id);
-            await _context.Incomes.DeleteManyAsync(x => x.AccountId == account.Id);
-            await _context.Investments.DeleteManyAsync(x => x.AccountId == account.Id);
-            await _context.Accounts.DeleteOneAsync(x => x.Id == account.Id);
-        }
 
         public async Task Remove(Account account, IFinanceStatement financeStatement)
         {
@@ -130,11 +118,6 @@ namespace Planner.Infrastructure.Repositories
 
             else if (financeStatement is Investment)
                 await _context.Investments.DeleteOneAsync(x => x.Id == financeStatement.Id && x.AccountId == account.Id);
-        }
-
-        public async Task Remove(IFinanceStatement financeStatement, AmountRecord amountRecord)
-        {
-            await _context.AmountRecords.DeleteOneAsync(x => x.Id == amountRecord.Id && x.FinanceStatementId == financeStatement.Id);
         }
 
         public async Task Update(Account account, IFinanceStatement financeStatement)

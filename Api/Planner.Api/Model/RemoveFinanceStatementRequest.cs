@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Planner.Api.UseCases.CreateInvestment
+namespace Planner.Api.Model
 {
     /// <summary>
     /// 
     /// </summary>
-    public class CreateInvestmentRequest
+    public class RemoveFinanceStatementRequest
     {
         /// <summary>
         /// account id
@@ -14,14 +14,9 @@ namespace Planner.Api.UseCases.CreateInvestment
         public System.Guid AccountId { get; set; }
 
         /// <summary>
-        /// investment's title
+        /// expense id
         /// </summary>
         [Required]
-        public string Title { get; set; }
-
-        /// <summary>
-        /// investment's amount
-        /// </summary>
-        public decimal? Amount { get; set; }
+        public System.Guid Id { get; set; }
     }
 }

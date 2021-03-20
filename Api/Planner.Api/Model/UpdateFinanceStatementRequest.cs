@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Planner.Api.UseCases.UpdateExpense
+namespace Planner.Api.Model
 {
     /// <summary>
     /// 
     /// </summary>
-    public class UpdateExpenseRequest
+    public class UpdateFinanceStatementRequest
     {
         /// <summary>
         /// account id
@@ -17,13 +17,12 @@ namespace Planner.Api.UseCases.UpdateExpense
         /// expense id
         /// </summary>
         [Required]
-        public System.Guid ExpenseId { get; set; }
+        public System.Guid Id { get; set; }
 
         /// <summary>
         /// expense title
         /// </summary>
         [Required]
         public string Title { get; set; }
-
     }
 }

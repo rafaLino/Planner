@@ -1,7 +1,9 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Options;
+using Moq;
 using Planner.Application.Commands.SignIn;
 using Planner.Application.Exceptions;
 using Planner.Application.Repositories;
+using Planner.Domain;
 using Planner.Domain.Users;
 using Planner.Domain.ValueObjects;
 using System;
@@ -13,11 +15,19 @@ namespace Planner.UseCases.Tests
     public class SignInUseCaseTests
     {
         private readonly Mock<IUserReadOnlyRepository> _userReadOnlyRepository;
+        private readonly IOptions<JwtSettings> jwtSettings;
         private readonly ISignInUseCase _signInUseCase;
+
         public SignInUseCaseTests()
         {
             _userReadOnlyRepository = new Mock<IUserReadOnlyRepository>();
-            _signInUseCase = new SignInUseCase(_userReadOnlyRepository.Object);
+            var setting = new JwtSettings
+            {
+                Key = Guid.NewGuid().ToString(),
+                ExpiryTime = 2
+            };
+            jwtSettings = Options.Create(setting);
+            _signInUseCase = new SignInUseCase(_userReadOnlyRepository.Object, jwtSettings);
         }
 
         [Fact]

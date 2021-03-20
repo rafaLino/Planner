@@ -73,7 +73,8 @@ namespace Planner.Infrastructure.Repositories
                      {
                          Metadata = new MongoDB.Bson.BsonDocument
                          {
-                            {"type", picture._type }
+                            {"type", picture._type },
+                            {"size", picture._size }
                          }
                      }); ;
             }
@@ -91,7 +92,36 @@ namespace Planner.Infrastructure.Repositories
 
             byte[] bytes = await _context.Bucket.DownloadAsBytesAsync(id);
 
-            return Picture.Load(bytes, info.Length, info.Metadata["type"].AsString, info.Filename);
+            return Picture.Load(bytes, info.Metadata["size"].AsInt64, info.Metadata["type"].AsString, info.Filename);
+        }
+
+        public async Task Remove(Guid userId)
+        {
+            var user = await _context.Users.FindOneAndDeleteAsync(x => x.Id == userId);
+
+            await _context.Expenses.Find(x => x.AccountId == user.AccountId)
+                .ForEachAsync(async x =>
+                {
+                    await _context.AmountRecords.DeleteManyAsync(y => y.FinanceStatementId == x.Id);
+                });
+
+            await _context.Incomes.Find(x => x.AccountId == user.AccountId)
+                .ForEachAsync(async x =>
+                {
+                    await _context.AmountRecords.DeleteManyAsync(y => y.FinanceStatementId == x.Id);
+                });
+
+            await _context.Investments.Find(x => x.AccountId == user.AccountId)
+                .ForEachAsync(async x =>
+                {
+                    await _context.AmountRecords.DeleteManyAsync(y => y.FinanceStatementId == x.Id);
+                });
+
+            await _context.Expenses.DeleteManyAsync(x => x.AccountId == user.AccountId);
+            await _context.Incomes.DeleteManyAsync(x => x.AccountId == user.AccountId);
+            await _context.Investments.DeleteManyAsync(x => x.AccountId == user.AccountId);
+            await _context.Accounts.DeleteOneAsync(x => x.Id == user.AccountId);
+            await _context.Bucket.DeleteAsync(user.Id);
         }
     }
 }

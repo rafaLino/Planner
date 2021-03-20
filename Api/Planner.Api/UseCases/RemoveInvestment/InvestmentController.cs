@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Planner.Api.Model;
 using Planner.Application.Commands.RemoveFinanceStatement;
 using Planner.Domain.Accounts;
 using System.Threading.Tasks;
@@ -32,9 +33,9 @@ namespace Planner.Api.UseCases.RemoveInvestment
         /// <returns code="200">return remove result</returns>
         [HttpDelete]
         [Authorize]
-        public async Task<IActionResult> Delete([FromBody] RemoveInvestmentRequest request)
+        public async Task<IActionResult> Delete([FromBody] RemoveFinanceStatementRequest request)
         {
-            RemoveFinanceStatementResult result = await _remove.Execute<Investment>(request.AccountId, request.InvestmentId);
+            RemoveFinanceStatementResult result = await _remove.Execute<Investment>(request.AccountId, request.Id);
 
             return Ok(result);
         }

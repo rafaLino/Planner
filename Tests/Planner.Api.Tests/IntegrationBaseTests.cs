@@ -38,5 +38,10 @@ namespace Planner.Api.Tests
             _client = _server.CreateClient();
         }
 
+        public void AddToken(string token)
+        {
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+
     }
 }

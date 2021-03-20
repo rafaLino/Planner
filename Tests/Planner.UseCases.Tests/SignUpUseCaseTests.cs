@@ -1,7 +1,9 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Options;
+using Moq;
 using Planner.Application.Commands.SignUp;
 using Planner.Application.Exceptions;
 using Planner.Application.Repositories;
+using Planner.Domain;
 using Planner.Domain.Accounts;
 using Planner.Domain.Users;
 using System;
@@ -15,15 +17,21 @@ namespace Planner.UseCases.Tests
         private readonly Mock<IAccountWriteOnlyRepository> _accountWriteOnlyRepository;
         private readonly Mock<IUserWriteOnlyRepository> _userWriteOnlyRepository;
         private readonly Mock<IUserReadOnlyRepository> _userReadOnlyRepository;
+        private readonly IOptions<JwtSettings> jwtSettings;
         private readonly ISignUpUseCase signUpUseCase;
-
         public SignUpUseCaseTests()
         {
             _accountWriteOnlyRepository = new Mock<IAccountWriteOnlyRepository>();
             _userWriteOnlyRepository = new Mock<IUserWriteOnlyRepository>();
             _userReadOnlyRepository = new Mock<IUserReadOnlyRepository>();
+            var setting = new JwtSettings
+            {
+                Key = Guid.NewGuid().ToString(),
+                ExpiryTime = 2
+            };
+            jwtSettings = Options.Create(setting);
 
-            signUpUseCase = new SignUpUseCase(_accountWriteOnlyRepository.Object, _userWriteOnlyRepository.Object, _userReadOnlyRepository.Object);
+            signUpUseCase = new SignUpUseCase(_accountWriteOnlyRepository.Object, _userWriteOnlyRepository.Object, _userReadOnlyRepository.Object, jwtSettings);
         }
 
         [Fact]

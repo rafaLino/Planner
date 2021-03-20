@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Planner.Api.Model;
 using Planner.Application.Commands.UpdateFinanceStatement;
 using Planner.Domain.Accounts;
 using System.Threading.Tasks;
@@ -31,9 +32,9 @@ namespace Planner.Api.UseCases.UpdateInvestment
         /// <returns code="204"></returns>
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Put([FromBody] UpdateInvestmentRequest request)
+        public async Task<IActionResult> Put([FromBody] UpdateFinanceStatementRequest request)
         {
-            await _update.Execute<Investment>(request.AccountId, request.InvestmentId, request.Title);
+            await _update.Execute<Investment>(request.AccountId, request.Id, request.Title);
 
             return NoContent();
         }

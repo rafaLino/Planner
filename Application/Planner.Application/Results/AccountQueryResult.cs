@@ -1,5 +1,4 @@
 ﻿using Planner.Domain.Accounts;
-using System;
 
 namespace Planner.Application.Results
 {
@@ -21,7 +20,7 @@ namespace Planner.Application.Results
             CurrentBalance = totalIncomes - expenses.Total() + investments.Total();
 
             Incomes = new IncomeCardResult(incomes);
-            Expenses = new ExpenseCardResult(expenses, incomes.Total());
+            Expenses = new ExpenseCardResult(expenses, totalIncomes);
             Investments = new InvestmentCardResult(investments, totalIncomes);
         }
 

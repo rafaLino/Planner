@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Planner.Api.Filters;
+using Planner.Domain;
 using Planner.Infrastructure;
 using System.IO;
 
@@ -95,6 +96,7 @@ namespace Planner.Api
                  };
              });
 
+            services.Configure<JwtSettings>(Configuration.GetSection(JwtSettings.Configuration));
             services.AddConfig(Configuration);
             services.Register();
 

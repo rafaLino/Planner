@@ -1,26 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace Planner.Api.UseCases.CreateIncome
+namespace Planner.Api.Model
 {
     /// <summary>
     /// 
     /// </summary>
-    public class CreateIncomeRequest
+    public class CreateFinanceStatementRequest
     {
         /// <summary>
-        /// Account Id
+        /// account id
         /// </summary>
         [Required]
-        public System.Guid AccountId { get; set; }
+        public Guid AccountId { get; set; }
 
         /// <summary>
-        /// Income's name
+        /// expense's title
         /// </summary>
         [Required]
         public string Title { get; set; }
 
         /// <summary>
-        /// income's amount
+        /// expense's amount
         /// </summary>
         public decimal? Amount { get; set; }
     }

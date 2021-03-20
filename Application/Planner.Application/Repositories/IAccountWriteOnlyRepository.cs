@@ -9,9 +9,6 @@ namespace Planner.Application.Repositories
 
         Task Update(Account account, IFinanceStatement financeStatement);
 
-        Task Remove(Account account);
-
         Task Remove(Account account, IFinanceStatement financeStatement);
-        Task Remove(IFinanceStatement financeStatement, AmountRecord amountRecord);
     }
 }

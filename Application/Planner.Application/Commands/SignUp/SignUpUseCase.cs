@@ -1,5 +1,7 @@
-﻿using Planner.Application.Exceptions;
+﻿using Microsoft.Extensions.Options;
+using Planner.Application.Exceptions;
 using Planner.Application.Repositories;
+using Planner.Domain;
 using Planner.Domain.Accounts;
 using Planner.Domain.Users;
 using Planner.Domain.ValueObjects;
@@ -12,12 +14,18 @@ namespace Planner.Application.Commands.SignUp
         private readonly IAccountWriteOnlyRepository _accountWriteOnlyRepository;
         private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
         private readonly IUserReadOnlyRepository _userReadOnlyRepository;
+        private readonly JwtSettings jwtSettings;
 
-        public SignUpUseCase(IAccountWriteOnlyRepository accountWriteOnlyRepository, IUserWriteOnlyRepository userWriteOnlyRepository, IUserReadOnlyRepository userReadOnlyRepository)
+        public SignUpUseCase(
+            IAccountWriteOnlyRepository accountWriteOnlyRepository,
+            IUserWriteOnlyRepository userWriteOnlyRepository,
+            IUserReadOnlyRepository userReadOnlyRepository,
+            IOptions<JwtSettings> jwtOptions)
         {
             _accountWriteOnlyRepository = accountWriteOnlyRepository;
             _userWriteOnlyRepository = userWriteOnlyRepository;
             _userReadOnlyRepository = userReadOnlyRepository;
+            jwtSettings = jwtOptions.Value;
         }
 
         public async Task<SignUpResult> Execute(SignUpCommand command)
@@ -40,8 +48,11 @@ namespace Planner.Application.Commands.SignUp
             await _accountWriteOnlyRepository.Create(account);
             await _userWriteOnlyRepository.Create(user);
 
+            string token = Token.Generate(user, jwtSettings);
+
             SignUpResult result = new SignUpResult
             {
+                Token = token,
                 UserId = user.Id,
                 AccountId = account.Id
             };

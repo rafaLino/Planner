@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Planner.Api.Model;
 using Planner.Application.Commands.CreateFinanceStatement;
 using Planner.Domain.Accounts;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace Planner.Api.UseCases.CreateIncome
         /// <returns>Return income result</returns>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody] CreateIncomeRequest request)
+        public async Task<IActionResult> Post([FromBody] CreateFinanceStatementRequest request)
         {
             CreateFinanceStatementResult result = await _create.Execute<Income>(request.AccountId, request.Title, request.Amount);
 

@@ -1,12 +1,8 @@
-﻿using Planner.Api.Model;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Planner.Api.UseCases.SaveInvestmentAmountRecords
+namespace Planner.Api.Model
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class SaveInvestmentAmountRecordRequest
+    public class SaveAmountRecordRequest
     {
         /// <summary>
         /// account id
@@ -15,13 +11,13 @@ namespace Planner.Api.UseCases.SaveInvestmentAmountRecords
         public System.Guid AccountId { get; set; }
 
         /// <summary>
-        /// investment id
+        /// expense id
         /// </summary>
         [Required]
-        public System.Guid InvestmentId { get; set; }
+        public System.Guid Id { get; set; }
 
         /// <summary>
-        /// invesment amount's list
+        /// expense amount's list
         /// </summary>
         [Required]
         public AmountRecordModel[] AmountRecords { get; set; }
