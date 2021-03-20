@@ -13,7 +13,7 @@ env:
   AZURE_APIM_SERVICENAME: planner
   AZURE_APIM_API_ID: planner
   AZURE_APIM_APPSERVICEURL: https://api-planner.azurewebsites.net:80/
-  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 6.1.x
+  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 6.1.0
   SWASHBUCKLE_DOTNET_CORE_VERSION: 5.0.x
   API_IMPORT_SPECIFICATION_PATH: Api/Planner.Api/published/swagger.json
   API_IMPORT_DLL: Api/Planner.Api/bin/Debug/net5.0/Planner.Api.dll
