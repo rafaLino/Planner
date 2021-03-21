@@ -33,6 +33,11 @@ namespace Planner.Api
                 {
                     Title = "Planner Api",
                     Version = "v1",
+                    Contact = new OpenApiContact
+                    {
+                        Email = Configuration["infoApi:email"],
+                        Name = Configuration["infoApi:name"],
+                    }
 
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
