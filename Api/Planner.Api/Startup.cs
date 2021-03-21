@@ -37,7 +37,9 @@ namespace Planner.Api
                     {
                         Email = Configuration["infoApi:email"],
                         Name = Configuration["infoApi:name"],
-                    }
+                        
+                    },
+                    Description = Configuration["description"]
 
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
