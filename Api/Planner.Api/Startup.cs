@@ -39,7 +39,7 @@ namespace Planner.Api
                         Name = Configuration["infoApi:name"],
                         
                     },
-                    Description = Configuration["description"]
+                    Description = Configuration["infoApi:description"]
 
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
