@@ -2,9 +2,7 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
 using Planner.Infrastructure.Entities;
-using System;
 using System.Security.Authentication;
 
 namespace Planner.Infrastructure
@@ -15,7 +13,6 @@ namespace Planner.Infrastructure
         private readonly IMongoClient _mongoClient;
         private readonly IMongoDatabase _dataBase;
         private readonly PlannerAppConfig _config;
-        private readonly IGridFSBucket<Guid> _bucket;
         public Context(IOptions<PlannerAppConfig> config)
         {
 
@@ -26,23 +23,9 @@ namespace Planner.Infrastructure
             new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
             _mongoClient = new MongoClient(settings);
             _dataBase = _mongoClient.GetDatabase(_config.DataBase);
-            _bucket = new GridFSBucket<Guid>(_dataBase, new GridFSBucketOptions
-            {
-                BucketName = "profilePictures",
-                WriteConcern = WriteConcern.WMajority,
-                ReadPreference = ReadPreference.Secondary,
-            });
+
             Map();
         }
-
-        public IGridFSBucket<Guid> Bucket
-        {
-            get
-            {
-                return _bucket;
-            }
-        }
-
         public IMongoCollection<Account> Accounts
         {
             get
@@ -92,6 +75,14 @@ namespace Planner.Infrastructure
             }
         }
 
+        public IMongoCollection<Picture> Pictures
+        {
+            get
+            {
+                return _dataBase.GetCollection<Picture>(nameof(Pictures));
+            }
+        }
+
         private static void Map()
         {
             var serializer = new GuidSerializer(MongoDB.Bson.BsonType.String);
@@ -129,6 +120,13 @@ namespace Planner.Infrastructure
                 .SetSerializer(serializer);
 
                 cm.GetMemberMap(x => x.FinanceStatementId).SetSerializer(serializer);
+            });
+
+            BsonClassMap.RegisterClassMap<Picture>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapIdField(x => x.Id)
+                .SetSerializer(serializer);
             });
         }
 
