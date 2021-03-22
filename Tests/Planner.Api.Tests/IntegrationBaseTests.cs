@@ -25,7 +25,7 @@ namespace Planner.Api.Tests
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration((context, config) =>
                 {
-                    config.AddJsonFile("appsettings.Development.json", optional: true);
+                    config.AddJsonFile("appsettings.json", optional: true);
                     config.AddEnvironmentVariables();
                 })
                 .ConfigureServices((context, services) =>
