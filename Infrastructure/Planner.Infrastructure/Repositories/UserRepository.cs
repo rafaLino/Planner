@@ -1,5 +1,4 @@
 ﻿using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
 using Planner.Application.Repositories;
 using Planner.Domain.Users;
 using Planner.Domain.ValueObjects;
@@ -67,32 +66,24 @@ namespace Planner.Infrastructure.Repositories
         {
             if (picture != null)
             {
-                await _context
-                     .Bucket
-                     .UploadFromBytesAsync(id, picture._name, picture._bytes, new GridFSUploadOptions
-                     {
-                         Metadata = new MongoDB.Bson.BsonDocument
-                         {
-                            {"type", picture._type },
-                            {"size", picture._size }
-                         }
-                     }); ;
+                Entities.Picture entity = new Entities.Picture
+                {
+                    Id = id,
+                    Bytes = picture._bytes,
+                    Name = picture._name,
+                    Size = picture._size,
+                    Type = picture._type
+                };
+                await _context.Pictures.ReplaceOneAsync(x => x.Id == id, entity, new ReplaceOptions { IsUpsert = true });
             }
         }
 
         private async Task<Picture> GetPicture(Guid id)
         {
-            GridFSFileInfo<Guid> info = await _context
-                .Bucket
-                .Find(Builders<GridFSFileInfo<Guid>>.Filter.Eq(x => x.Id, id))
-                .FirstOrDefaultAsync();
 
-            if (info == null)
-                return default;
+            Entities.Picture entity = await _context.Pictures.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-            byte[] bytes = await _context.Bucket.DownloadAsBytesAsync(id);
-
-            return Picture.Load(bytes, info.Metadata["size"].AsInt64, info.Metadata["type"].AsString, info.Filename);
+            return Picture.Load(entity.Bytes, entity.Size, entity.Type, entity.Name);
         }
 
         public async Task Remove(Guid userId)
@@ -121,7 +112,7 @@ namespace Planner.Infrastructure.Repositories
             await _context.Incomes.DeleteManyAsync(x => x.AccountId == user.AccountId);
             await _context.Investments.DeleteManyAsync(x => x.AccountId == user.AccountId);
             await _context.Accounts.DeleteOneAsync(x => x.Id == user.AccountId);
-            await _context.Bucket.DeleteAsync(user.Id);
+            await _context.Pictures.DeleteOneAsync(x => x.Id == user.Id);
         }
     }
 }
